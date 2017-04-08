@@ -12,9 +12,9 @@
    	define('STRIPE_BASE_DIR', dirname(__FILE__));
    }
 
- function donation_admin() {
-     include('donation_admin.php');
- }
+ // function donation_admin() {
+ //     include('donation_admin.php');
+ // }
 
 // function donation_admin_actions() {
 //     add_menu_page("MSR Donation Platform", "MSR Donation Platform", 1, "MSR Donation Platform", "donation_admin", "dashicons-chart-line", 79);

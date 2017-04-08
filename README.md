@@ -1,1 +1,0 @@
-# msr-fundraising-platform

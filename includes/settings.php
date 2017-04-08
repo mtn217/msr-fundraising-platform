@@ -1,7 +1,8 @@
 <?php
 
 function pippin_stripe_settings_setup() {
-	add_options_page('Stripe Settings', 'Stripe Settings', 'manage_options', 'stripe-settings', 'pippin_stripe_render_options_page');
+	add_menu_page('MSR Donation Platform', 'MSR Donation Platform', 1, 'donation-settings', 'pippin_stripe_render_options_page', "dashicons-chart-line", 79);
+	//add_menu_page("MSR Donation Platform", "MSR Donation Platform", 1, "MSR Donation Platform", "donation_admin", "dashicons-chart-line", 79);
 }
 add_action('admin_menu', 'pippin_stripe_settings_setup');
 
