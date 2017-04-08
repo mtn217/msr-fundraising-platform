@@ -24,11 +24,11 @@
 
 
 if(is_admin()) {
-  include(STRIPE_BASE_DIR . '\includes\settings.php');
+  include(STRIPE_BASE_DIR . '/includes/settings.php');
 } else {
-  include(STRIPE_BASE_DIR . '\includes\shortcodes.php');
-  include(STRIPE_BASE_DIR . '\includes\scripts.php');
-  include(STRIPE_BASE_DIR . '\includes\process-payment.php');
+  include(STRIPE_BASE_DIR . '/includes/shortcodes.php');
+  include(STRIPE_BASE_DIR . '/includes/scripts.php');
+  include(STRIPE_BASE_DIR . '/includes/process-payment.php');
 }
 
 /*
@@ -37,4 +37,6 @@ https://codex.wordpress.org/Adding_Administration_Menus
 https://codex.wordpress.org/Plugin_API/Action_Reference
 https://codex.wordpress.org/Administration_Screens
 */
+
+include('fundraisers.php');
 ?>
