@@ -12,6 +12,7 @@
    	define('STRIPE_BASE_DIR', dirname(__FILE__));
    }
 
+   $stripe_options = get_option('stripe_settings');
  // function donation_admin() {
  //     include('donation_admin.php');
  // }
