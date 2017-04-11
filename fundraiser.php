@@ -21,6 +21,7 @@ function create_fundraiser_post_type() {
 	      'labels' => $labels,
 	      'public' => true,
 	      'has_archive' => true,
+          'supports' => array( 'thumbnail', 'comments', 'author', 'editor' ),
 	    )
 	);
 }
@@ -40,11 +41,15 @@ function fundraiser_meta_box_cb($post) {
     <h3><label for="fundraiser-goal">Goal Amount</label></h3>
     <input type="text" name="fundraiser-goal" id="fundraiser-goal" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-goal', true)); ?>" />
 
+    <h3><label for="fundraiser-amount-raised">Amount Raised</label></h3>
+    <input type="text" name="fundraiser-amount-raised" id="fundraiser-amount-raised" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-amount-raised', true)); ?>" />
+
     <h3><label for="fundraiser-start">Start Date</label></h3>
     <input type="text" name="fundraiser-start" id="fundraiser-start" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-start', true)); ?>" />
 
     <h3><label for="fundraiser-end">End Date</label></h3>
     <input type="text" name="fundraiser-end" id="fundraiser-end" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-end', true)); ?>" />
+    
     <?php
 }
 
@@ -54,6 +59,7 @@ function save_fundraiser_form($post_id, $post) {
         return $post_id;
     update_fundraiser($post_id, 'fundraiser_form', 'fundraiser-tagline');
     update_fundraiser($post_id, 'fundraiser_form', 'fundraiser-goal');
+    update_fundraiser($post_id, 'fundraiser_form', 'fundraiser-amount-raised');
     update_fundraiser($post_id, 'fundraiser_form', 'fundraiser-start');
     update_fundraiser($post_id, 'fundraiser_form', 'fundraiser-end');
     flush_rewrite_rules();

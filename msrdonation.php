@@ -38,5 +38,5 @@ https://codex.wordpress.org/Plugin_API/Action_Reference
 https://codex.wordpress.org/Administration_Screens
 */
 
-include('fundraisers.php');
+include('fundraiser.php');
 ?>
