@@ -32,7 +32,7 @@ jQuery(document).ready(function($) {
 			address_zip: $('.zipcode').val(),
 			address_country: $('.country').val()
 		}, stripeResponseHandler);
-    print ("finished processing");
+    // print ("finished processing");
 
 		// prevent the form from submitting with the default action
 		return false;
