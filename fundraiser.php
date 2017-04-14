@@ -21,7 +21,7 @@ function create_fundraiser_post_type() {
 	      'labels' => $labels,
 	      'public' => true,
 	      'has_archive' => true,
-          'supports' => array( 'thumbnail', 'comments', 'author', 'editor' ),
+          'supports' => array( 'thumbnail', 'comments', 'author', 'editor', 'title' ),
 	    )
 	);
 }
@@ -54,7 +54,7 @@ function fundraiser_meta_box_cb($post) {
 }
 
 add_action('save_post', 'save_fundraiser_form');
-function save_fundraiser_form($post_id, $post) {
+function save_fundraiser_form($post_id) {
     if (!verify_save('fundraiser_nonce', $post_id))
         return $post_id;
     update_fundraiser($post_id, 'fundraiser_form', 'fundraiser-tagline');
