@@ -1,9 +1,10 @@
 <?php
 
 function pippin_stripe_settings_setup() {
-	//add_menu_page('MSR Donation Platform', 'MSR Donation Platform', 'manage_options', 'stripe-settings', 'pippin_stripe_render_options_page', "dashicons-chart-line", 79);
-	add_options_page('Stripe Settings', 'Stripe Settings', 'manage_options', 'stripe-settings', 'pippin_stripe_render_options_page');
+	add_menu_page('MSR Donation Platform', 'MSR Donation Platform', 'manage_options', 'donation-settings', 'pippin_stripe_render_options_page', "dashicons-chart-line", 79);
+	//add_options_page('Stripe Settings', 'Stripe Settings', 'manage_options', 'stripe-settings', 'pippin_stripe_render_options_page');
 }
+
 add_action('admin_menu', 'pippin_stripe_settings_setup');
 
 function pippin_stripe_render_options_page() {
@@ -72,6 +73,30 @@ function pippin_stripe_render_options_page() {
 				</tbody>
 			</table>
 
+			<table class="form-table">
+				<tbody>
+					<tr valign="top">	
+						<th scope="row" valign="top">
+							<?php _e('Allow Recurring', 'pippin_stripe'); ?>
+						</th>
+						<td>
+							<input id="stripe_settings[recurring]" name="stripe_settings[recurring]" type="checkbox" value="1" <?php checked(1, $stripe_options['recurring']); ?> />
+							<label class="description" for="stripe_settings[recurring]"><?php _e('Check this to allow users to setup recurring payments.', 'pippin_stripe'); ?></label>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<tr valign="top">	
+				<th scope="row" valign="top">
+					<?php _e('Plan ID', 'pippin_stripe'); ?>
+				</th>
+				<td>
+					<input id="stripe_settings[plan_id]" name="stripe_settings[plan_id]" class="regular-text" type="text" value="<?php echo $stripe_options['plan_id']; ?>"/>
+					<label class="description" for="stripe_settings[plan_id]"><?php _e('Enter the ID of the recurring plan you have created in Stripe', 'pippin_stripe'); ?></label>
+				</td>
+			</tr>
+			
 			<p class="submit">
 				<input type="submit" class="button-primary" value="<?php _e('Save Options', 'mfwp_domain'); ?>" />
 			</p>
