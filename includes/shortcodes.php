@@ -7,7 +7,8 @@ function pippin_stripe_payment_form($atts, $content = null) {
 
  
 	if(isset($_GET['payment']) && $_GET['payment'] == 'paid') {
-		echo '<p class="success">' . __('Thank you for your payment. Please check your email for your receipt.', 'pippin_stripe') . '</p>';
+		echo '<p class="success">' . __('Thank you for your payment. Please check your email for your receipt.'.'\n\n'
+			.'Your confirmation code is', 'pippin_stripe') . '</p>';
 	} else { ?>
 		<form action="" method="POST" id="stripe-payment-form">
 			<div class="form-row">

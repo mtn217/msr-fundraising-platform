@@ -39,14 +39,17 @@ function pippin_stripe_event_listener() {
 					// retrieve the payer's information
 					$customer = \Stripe\Customer::retrieve($invoice->customer);
 					$email = $customer->email;
+					//$name = $customer->name;
  
 					$amount = $invoice->amount / 100; // amount comes in as amount in cents, so we need to convert to dollars
+					$confirmation = $invoice->id;
  
 					$subject = __('Payment Receipt', 'pippin_stripe');
 					$headers = 'From: "' . html_entity_decode(get_bloginfo('name')) . '" <' . get_bloginfo('admin_email') . '>';
-					$message = "Hello " . $customer_name . "\n\n";
-					$message .= "You have successfully made a payment of " . $amount . "\n\n";
-					$message .= "Thank you.";
+					$message = "Hello " . $name . ",\n\n";
+					$message .= "You have successfully made a payment of $" . $amount . ".00\n\n";
+					$message .= "Thank you for your generosity.\n\n";
+					$message .= "Here is your confirmation number: ". $confirmation;
  
 					wp_mail($email, $subject, $message, $headers);
 					echo "Email Sent";
