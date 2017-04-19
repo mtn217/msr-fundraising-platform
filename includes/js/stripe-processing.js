@@ -27,10 +27,7 @@ jQuery(document).ready(function($) {
 			exp_month: $('.card-expiry-month').val(),
 			exp_year: $('.card-expiry-year').val(),
 			name: $('.name').val(),
-			address_line1: $('.address').val(),
-			address_city: $('.city').val(),
 			address_zip: $('.zipcode').val(),
-			address_country: $('.country').val()
 		}, stripeResponseHandler);
     // print ("finished processing");
 
