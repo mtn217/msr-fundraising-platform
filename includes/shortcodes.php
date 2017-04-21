@@ -1,19 +1,21 @@
 <?php
 function pippin_stripe_payment_form($atts, $content = null) {
  
-	// extract( shortcode_atts( array(
-	// 	'amount' => ''
-	// ), $atts ) );
- 
 	global $stripe_options;
+
+	ob_start();
+
  
-	if(isset($_GET['payment']) && $_GET['payment'] == 'paid') {
-		echo '<p class="success">' . __('Thank you for your payment. Please check your email for your receipt.', 'pippin_stripe') . '</p>';
-	} else { ?>
-		<form action="" method="POST" id="stripe-payment-form">
+	// if(isset($_GET['payment']) && $_GET['payment'] == 'paid') {
+	// 	echo '<p class="success">' . __('Thank you for your payment. Please check your email for your receipt.'."\n\n"
+	// 		.'Your confirmation code is', 'pippin_stripe') . '</p>';
+	// } else {
+		?>
+	<div id="payment-form">
+		<form action="process-payment.php" method="POST" id="stripe-payment-form">
 			<div class="form-row">
 				<label><?php _e('Amount*', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" placeholder="$20" name="user-amount"/>
+				<input type="text" size="20" autocomplete="off" placeholder="$20" id="user-amount"/>
 			</div>
 
 			<div class="form-row">
@@ -27,23 +29,18 @@ function pippin_stripe_payment_form($atts, $content = null) {
 			</div>
 
 			<div class="form-row">
-				<label><?php _e('Street*', 'pippin_stripe'); ?></label>
+				<label><?php _e('Street', 'pippin_stripe'); ?></label>
 				<input type="text" size="20" autocomplete="off" name="address"/>
 			</div>
 
 			<div class="form-row">
-				<label><?php _e('City*', 'pippin_stripe'); ?></label>
+				<label><?php _e('City', 'pippin_stripe'); ?></label>
 				<input type="text" size="20" autocomplete="off" name="city"/>
 			</div>
 
 			<div class="form-row">
 				<label><?php _e('Zipcode*', 'pippin_stripe'); ?></label>
 				<input type="text" size="20" autocomplete="off" name="zipcode"/>
-			</div>
-
-			<div class="form-row">
-				<label><?php _e('Country*', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" name="country"/>
 			</div>
 
 			<div class="form-row">
@@ -74,8 +71,36 @@ function pippin_stripe_payment_form($atts, $content = null) {
 			<button type="submit" id="stripe-submit"><?php _e('Submit Payment', 'pippin_stripe'); ?></button>
 		</form>
 		<div class="payment-errors"></div>
+	</div>
 		<?php
-	}
+
+	return ob_get_clean();
+
+}  
+
+function stripe_customer() {
+	ob_start();
+	$total_amount = get_total();
+	echo '$' . $total_amount;
+	return ob_get_clean();
+
+}
+
+function test_form() { ?>
+	<div id="form-test">
+		<form action="" method="POST" id="test-form">
+			<label><?php _e('Amount*', 'pippin_stripe'); ?></label>
+			<input type="text" size="20" autocomplete="off" placeholder="$20" name="user1"/>
+			<br>
+			<label><?php _e('Email*', 'pippin_stripe'); ?></label>
+			<input type="text" size="20" autocomplete="off" name="user2"/>
+			<br>
+			<button type="submit"><?php _e('Submit Payment', 'pippin_stripe'); ?></button>
+		</form>	
+	</div>
+<?php
 }
 
 add_shortcode('payment', 'pippin_stripe_payment_form');
+add_shortcode('customer', 'stripe_customer');
+add_shortcode('test', 'test_form');
