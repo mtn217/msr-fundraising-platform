@@ -6,6 +6,7 @@ function pippin_stripe_payment_form($atts, $content = null) {
 	ob_start();
 
  
+<<<<<<< HEAD
 	// if(isset($_GET['payment']) && $_GET['payment'] == 'paid') {
 	// 	echo '<p class="success">' . __('Thank you for your payment. Please check your email for your receipt.'."\n\n"
 	// 		.'Your confirmation code is', 'pippin_stripe') . '</p>';
@@ -13,6 +14,13 @@ function pippin_stripe_payment_form($atts, $content = null) {
 		?>
 	<div id="payment-form">
 		<form action="process-payment.php" method="POST" id="stripe-payment-form">
+=======
+	if(isset($_GET['payment']) && $_GET['payment'] == 'paid') {
+		echo '<p class="success">' . __('Thank you for your payment. Please check your email for your receipt.'.'\n\n'
+			.'Your confirmation code is', 'pippin_stripe') . '</p>';
+	} else { ?>
+		<form action="" method="POST" id="stripe-payment-form">
+>>>>>>> e490f82372c992e1d8a753d4d502a111de7fc274
 			<div class="form-row">
 				<label><?php _e('Amount*', 'pippin_stripe'); ?></label>
 				<input type="text" size="20" autocomplete="off" placeholder="$20" id="user-amount"/>
@@ -73,6 +81,10 @@ function pippin_stripe_payment_form($atts, $content = null) {
 		<div class="payment-errors"></div>
 	</div>
 		<?php
+<<<<<<< HEAD
+=======
+	}
+>>>>>>> e490f82372c992e1d8a753d4d502a111de7fc274
 
 	return ob_get_clean();
 
@@ -84,6 +96,7 @@ function stripe_customer() {
 	echo '$' . $total_amount;
 	return ob_get_clean();
 
+<<<<<<< HEAD
 }
 
 function test_form() { ?>
@@ -104,3 +117,9 @@ function test_form() { ?>
 add_shortcode('payment', 'pippin_stripe_payment_form');
 add_shortcode('customer', 'stripe_customer');
 add_shortcode('test', 'test_form');
+=======
+}
+
+add_shortcode('payment', 'pippin_stripe_payment_form');
+add_shortcode('customer', 'stripe_customer');
+>>>>>>> e490f82372c992e1d8a753d4d502a111de7fc274
