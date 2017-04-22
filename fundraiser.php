@@ -36,6 +36,12 @@ function fundraiser_meta_box_cb($post) {
     if($post->post_type == 'fundraiser') {
     	wp_nonce_field(basename(__FILE__), 'fundraiser_nonce'); ?>
 
+        <h3><label for="fundraiser-campaign">Campaign</label></h3>
+        <select name="fundraiser-campaign" id="fundraiser-campaign">
+            <option></option>
+            <?php get_campaign_options(get_post_meta($post->ID, 'fundraiser-campaign', true)); ?>
+        </select>
+
         <h3><label for="fundraiser-tagline">Tagline</label></h3>
         <input type="text" name="fundraiser-tagline" id="fundraiser-tagline" size="90" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-tagline', true)); ?>" />
 
@@ -46,10 +52,10 @@ function fundraiser_meta_box_cb($post) {
         <input type="text" name="fundraiser-amount-raised" id="fundraiser-amount-raised" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-amount-raised', true)); ?>" />
 
         <h3><label for="fundraiser-start">Start Date</label></h3>
-        <input type="text" name="fundraiser-start" id="fundraiser-start" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-start', true)); ?>" />
+        <input type="date" name="fundraiser-start" id="fundraiser-start" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-start', true)); ?>" />
 
         <h3><label for="fundraiser-end">End Date</label></h3>
-        <input type="text" name="fundraiser-end" id="fundraiser-end" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-end', true)); ?>" />
+        <input type="date" name="fundraiser-end" id="fundraiser-end" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-end', true)); ?>" />
         
         <?php
     }
@@ -59,6 +65,7 @@ add_action('save_post', 'save_fundraiser_form');
 function save_fundraiser_form($post_id) {
     if (!verify_save('fundraiser_nonce', $post_id))
         return $post_id;
+    update_custom_post($post_id, 'fundraiser_form', 'fundraiser-campaign');
     update_custom_post($post_id, 'fundraiser_form', 'fundraiser-tagline');
     update_custom_post($post_id, 'fundraiser_form', 'fundraiser-goal');
     update_custom_post($post_id, 'fundraiser_form', 'fundraiser-amount-raised');
