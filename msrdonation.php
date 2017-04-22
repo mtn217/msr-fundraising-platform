@@ -42,4 +42,5 @@ https://codex.wordpress.org/Administration_Screens
 */
 
 include('fundraiser.php');
+include('campaign.php');
 ?>

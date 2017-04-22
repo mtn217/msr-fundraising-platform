@@ -48,7 +48,6 @@ function pippin_stripe_process_payment() {
 				} else {
 					$customer_id = false;
 				}
-<<<<<<< HEAD
 
 				if( !$customer_id ) {
 					// create a new customer if our current user doesn't have one
@@ -75,43 +74,11 @@ function pippin_stripe_process_payment() {
 
 				// redirect on successful payment
 				// $redirect = add_query_arg('payment', 'paid', $_POST['redirect']);
-=======
-
-				if( !$customer_id ) {
-					// create a new customer if our current user doesn't have one
-					$customer = \Stripe\Customer::create(array(
-							'source' => $token,
-							'email' => strip_tags(trim($_POST['email']))
-						)
-					);
- 
-					$customer_id = $customer->id;
- 
-					if( is_user_logged_in () ) {
-						update_user_meta( get_current_user_id(), '_stripe_customer_id', $customer_id );
-					}
-				}
-				if( $customer_id ) {
-					$charge = \Stripe\Charge::create(array(
-							'amount' => $amount, // amount in cents
-							'currency' => 'usd',
-							'customer' => $customer_id
-						)
-					);
-				}
-
-				// redirect on successful payment
-				$redirect = add_query_arg('payment', 'paid', $_POST['redirect']);
->>>>>>> e490f82372c992e1d8a753d4d502a111de7fc274
 
 			} catch (Exception $e) {
 				// redirect on failed payment
 				wp_die($e);
-<<<<<<< HEAD
 				// $redirect = add_query_arg('payment', 'failed', $_POST['redirect']);
-=======
-				$redirect = add_query_arg('payment', 'failed', $_POST['redirect']);
->>>>>>> e490f82372c992e1d8a753d4d502a111de7fc274
 			}
 		}
 
