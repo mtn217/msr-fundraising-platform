@@ -24,22 +24,18 @@ function pippin_stripe_process_payment() {
 
 		\Stripe\Stripe::setApiKey($secret_key);
 
-		if(isset($_POST['recurring']) && $_POST['recurring'] == 'yes') { // process a recurring payment
- 
-			// try {			
-			// 	$customer = \Stripe\Customer::create(array(
-			// 			'card' => $token,
-			// 			'plan' => $email
-			// 		)
-			// 	);	
- 
-			// 	// redirect on successful recurring payment setup
-			// 	$redirect = add_query_arg('payment', 'paid', $_POST['redirect']);
- 
-			// } catch (Exception $e) {
-			// 	// redirect on failure
-			// 	$redirect = add_query_arg('payment', 'failed', $_POST['redirect']);
-			// }
+		if(isset($_POST['recurring']) && $_POST['recurring'] == 'recurring') { // process a recurring payment
+ 			$customer_id = get_user_meta( get_current_user_id(), '_stripe_customer_id', true );
+ 			if( $customer_id ) {
+					\Stripe\Subscription::create(array(
+						'customer' => $customer_id,
+						'plan' => 'contributions',
+						'quantity' => ($amount / 100),
+						'metadata' => array(
+							'description' => $post_id)
+						)
+					);
+				}
  
 		} else { // process a one-time payment
 
