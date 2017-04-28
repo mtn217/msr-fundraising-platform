@@ -27,7 +27,7 @@ function pippin_stripe_process_payment() {
 		if(isset($_POST['recurring']) && $_POST['recurring'] == 'recurring') { // process a recurring payment
  			$customer_id = get_user_meta( get_current_user_id(), '_stripe_customer_id', true );
  			if( $customer_id ) {
-					\Stripe\Subscription::create(array(
+					$transaction = \Stripe\Subscription::create(array(
 						'customer' => $customer_id,
 						'plan' => 'contributions',
 						'quantity' => ($amount / 100),
@@ -62,7 +62,7 @@ function pippin_stripe_process_payment() {
 					}
 				}
 				if( $customer_id ) {
-					$charge = \Stripe\Charge::create(array(
+					$transaction = \Stripe\Charge::create(array(
 							'amount' => $amount, // amount in cents
 							'currency' => 'usd',
 							'customer' => $customer_id,
@@ -80,7 +80,6 @@ function pippin_stripe_process_payment() {
 				// $redirect = add_query_arg('payment', 'failed', $_POST['redirect']);
 			}
 		}
-
 		// redirect back to our previous page with the added query variable
 		wp_redirect($_POST['redirect']); exit;
 	}

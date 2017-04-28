@@ -24,7 +24,7 @@ function stripeResponseHandler(status, response) {
 			type: "POST",
 			url: "process-payment.php",
 			data: dataString, 
-			success: function(){
+			success: function(data){
 				// alert("yay")
 				$('#payment-form').html("<div id='message'></div>");
 				$('#message').html("<h2>Thank you for your payment. Please check your email for your receipt.</h2>")
