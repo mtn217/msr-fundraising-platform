@@ -16,7 +16,9 @@ function stripeResponseHandler(status, response) {
 
         var amount = $('#user-amount').val() * 100;
         var nounce = $('input[name=stripe_nonce').val();
-        var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=stripe' + '&stripe_nonce=' + nounce;
+        var post_id = $('#post_id').val();
+        var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=stripe' + '&stripe_nonce=' + nounce + 
+        	"&postID=" + post_id;
     	$.ajax({
 			type: "POST",
 			url: "process-payment.php",

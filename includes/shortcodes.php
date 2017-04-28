@@ -5,12 +5,7 @@ function pippin_stripe_payment_form($atts, $content = null) {
 
 	ob_start();
 
- 
-	// if(isset($_GET['payment']) && $_GET['payment'] == 'paid') {
-	// 	echo '<p class="success">' . __('Thank you for your payment. Please check your email for your receipt.'."\n\n"
-	// 		.'Your confirmation code is', 'pippin_stripe') . '</p>';
-	// } else {
-		?>
+	?>
 	<div id="payment-form">
 		<form action="process-payment.php" method="POST" id="stripe-payment-form">
 			<div class="form-row">
@@ -65,7 +60,7 @@ function pippin_stripe_payment_form($atts, $content = null) {
 			</div>
 			<?php } ?>
 			<input type="hidden" name="action" value="stripe"/>
-			<input type="hidden" name="redirect" value="<?php echo get_permalink(); ?>"/>
+			<input type="hidden" id="post_id" value="<?php echo url_to_postid(get_permalink()); ?>"/>
 			<input type="hidden" name="amount" value="<?php echo $_POST['user-amount']; ?>"/>
 			<input type="hidden" name="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 			<button type="submit" id="stripe-submit"><?php _e('Submit Payment', 'pippin_stripe'); ?></button>
@@ -83,8 +78,8 @@ function stripe_customer() {
 	$total_amount = get_total();
 	echo '$' . $total_amount;
 	return ob_get_clean();
-
 }
+
 
 function test_form() { ?>
 	<div id="form-test">
@@ -103,4 +98,3 @@ function test_form() { ?>
 
 add_shortcode('payment', 'pippin_stripe_payment_form');
 add_shortcode('customer', 'stripe_customer');
-add_shortcode('test', 'test_form');

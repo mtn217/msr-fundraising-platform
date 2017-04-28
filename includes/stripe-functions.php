@@ -25,6 +25,6 @@ function get_total() {
 			$total += $data['amount'];
 		}
 	}
-
+	$total = $total / 100;
 	return $total;
 }
