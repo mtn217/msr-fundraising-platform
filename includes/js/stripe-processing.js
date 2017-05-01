@@ -18,12 +18,14 @@ function stripeResponseHandler(status, response) {
         var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=stripe' + '&stripe_nonce=' + nounce + 
         	"&postID=" + post_id + "&email=" + email;
         	//"&recurring=" + recurring
-
+        if(document.getElementById("recurring").checked) {
+        	dataString = dataString.concat("&recurring=recurring");
+        }
         	
     	$.ajax({
 			type: "POST",
 			url: "process-payment.php",
-			data: dataString, 
+			data: dataString,
 			success: function(data){
 				alert(dataString);
 				$('#payment-form').html("<div id='message'></div>");

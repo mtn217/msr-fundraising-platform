@@ -52,14 +52,14 @@ function pippin_stripe_payment_form($atts, $content = null) {
 				<span> / </span>
 				<input type="text" size="4" class="card-expiry-year"/>
 			</div>
-			<?php if(is_user_logged_in()) { ?>
+			<?php if(is_user_logged_in() && get_post_type() == "campaign") { ?>
 			<div class="form-row">
-				<input type="checkbox" id="recurring" value="recurring"/><span><?php _e('Recurring monthly payment', 'pippin_stripe'); ?></span>
+				<input type="checkbox" id="recurring"/><span><?php _e('Recurring monthly payment', 'pippin_stripe'); ?></span>
 			</div>
-			<?php }  else { ?>
-			<div class="form-row">
+			<?php }  elseif(get_post_type() == "campaign") { ?>
+ 			<div class="form-row">
 				<label><?php _e('Sign In if you would like to set up recurring contribution (create link here)', 'pippin_stripe'); ?></label>
-			</div>
+			</div> 
 			<?php } ?>
 			<input type="hidden" name="action" value="stripe"/>
 			<input type="hidden" id="post_id" value="<?php echo url_to_postid(get_permalink()); ?>"/>

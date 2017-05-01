@@ -29,6 +29,20 @@ function pippin_stripe_process_payment() {
 		if(isset($_POST['recurring']) && $_POST['recurring'] == 'recurring') { 
 			// process a recurring payment
  			$customer_id = get_user_meta( get_current_user_id(), '_stripe_customer_id', true );
+ 			if( !$customer_id ) {
+				// create a new customer if our current user doesn't have one
+				$customer = \Stripe\Customer::create(array(
+						'source' => $token,
+						'email' => $email
+					)
+				);
+
+				$customer_id = $customer->id;
+
+				if( is_user_logged_in () ) {
+					update_user_meta( get_current_user_id(), '_stripe_customer_id', $customer_id );
+				}
+			}
  			if( $customer_id ) {
 					$transaction = \Stripe\Subscription::create(array(
 						'customer' => $customer_id,
