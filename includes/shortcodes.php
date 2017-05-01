@@ -15,7 +15,12 @@ function pippin_stripe_payment_form($atts, $content = null) {
 
 			<div class="form-row">
 				<label><?php _e('Email*', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" class="email"/>
+				<input type="text" size="20" autocomplete="off" class="email" value="<?php  
+					if(is_user_logged_in()) {
+						$user = get_userdata(get_current_user_id());
+						echo trim($user->user_email);
+					}
+				?>"/>
 			</div>
 
 			<div class="form-row">
