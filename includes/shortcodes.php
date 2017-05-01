@@ -10,7 +10,7 @@ function pippin_stripe_payment_form($atts, $content = null) {
 		<form action="process-payment.php" method="POST" id="stripe-payment-form">
 			<div class="form-row">
 				<label><?php _e('Amount*', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" placeholder="$20" id="user-amount"/>
+				<input type="text" size="20" autocomplete="off" placeholder="$20" class="user-amount"/>
 			</div>
 
 			<div class="form-row">
@@ -20,22 +20,22 @@ function pippin_stripe_payment_form($atts, $content = null) {
 
 			<div class="form-row">
 				<label><?php _e('Name*', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" name="name"/>
+				<input type="text" size="20" autocomplete="off" class="name"/>
 			</div>
 
 			<div class="form-row">
 				<label><?php _e('Street', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" name="address"/>
+				<input type="text" size="20" autocomplete="off" class="address"/>
 			</div>
 
 			<div class="form-row">
 				<label><?php _e('City', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" name="city"/>
+				<input type="text" size="20" autocomplete="off" class="city"/>
 			</div>
 
 			<div class="form-row">
 				<label><?php _e('Zipcode*', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" name="zipcode"/>
+				<input type="text" size="20" autocomplete="off" class="zipcode"/>
 			</div>
 
 			<div class="form-row">
@@ -61,10 +61,9 @@ function pippin_stripe_payment_form($atts, $content = null) {
 				<label><?php _e('Sign In if you would like to set up recurring contribution (create link here)', 'pippin_stripe'); ?></label>
 			</div> 
 			<?php } ?>
-			<input type="hidden" name="action" value="stripe"/>
-			<input type="hidden" id="post_id" value="<?php echo url_to_postid(get_permalink()); ?>"/>
-			<input type="hidden" name="amount" value="<?php echo $_POST['user-amount']; ?>"/>
-			<input type="hidden" name="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
+			<input type="hidden" class="action" value="stripe"/>
+			<input type="hidden" class="post_id" value="<?php echo url_to_postid(get_permalink()); ?>"/>
+			<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 			<button type="submit" id="stripe-submit"><?php _e('Submit Payment', 'pippin_stripe'); ?></button>
 		</form>
 		<div class="payment-errors"></div>

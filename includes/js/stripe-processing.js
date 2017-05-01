@@ -9,25 +9,29 @@ function stripeResponseHandler(status, response) {
         var form$ = jQuery("#stripe-payment-form");
         // token contains id, last4, and card type
         var token = response['id'];
-        var amount = $('#user-amount').val() * 100;
-        var nounce = $('input[name=stripe_nonce').val();
-        var post_id = $('#post_id').val();
-        var recurring = $('#recurring').val();
+        var amount = $('.user-amount').val() * 100;
+        var nounce = $('.stripe_nonce').val();
+        var post_id = $('.post_id').val();
+        var recurring = $('.recurring').val();
         var email = $('.email').val();
+        var action = $('.action').val();
 
-        var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=stripe' + '&stripe_nonce=' + nounce + 
+        var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=' + action + '&stripe_nonce=' + nounce + 
         	"&postID=" + post_id + "&email=" + email;
         	//"&recurring=" + recurring
-        if(document.getElementById("recurring").checked) {
-        	dataString = dataString.concat("&recurring=recurring");
+
+        if(document.getElementById("recurring")) {
+        	if(document.getElementById("recurring").checked) {
+        		dataString = dataString.concat("&recurring=recurring");
+        	}
         }
-        	
+        
+		alert(dataString);
     	$.ajax({
 			type: "POST",
 			url: "process-payment.php",
 			data: dataString,
 			success: function(data){
-				alert(dataString);
 				$('#payment-form').html("<div id='message'></div>");
 				$('#message').html("<h2>Thank you for your payment. Please check your email for your receipt.</h2>")
 					.append("<p>Your confirmation code is: </p>")
