@@ -15,6 +15,8 @@ function pippin_stripe_process_payment() {
 
 		$post_id = $_POST['postID'];
 
+		$email = strip_tags(trim($_POST['email']));
+
 		// check if we are using test mode
 		if(isset($stripe_options['test_mode']) && $stripe_options['test_mode']) {
 			$secret_key = $stripe_options['test_secret_key'];
@@ -24,7 +26,8 @@ function pippin_stripe_process_payment() {
 
 		\Stripe\Stripe::setApiKey($secret_key);
 
-		if(isset($_POST['recurring']) && $_POST['recurring'] == 'recurring') { // process a recurring payment
+		if(isset($_POST['recurring']) && $_POST['recurring'] == 'recurring') { 
+			// process a recurring payment
  			$customer_id = get_user_meta( get_current_user_id(), '_stripe_customer_id', true );
  			if( $customer_id ) {
 					$transaction = \Stripe\Subscription::create(array(
@@ -51,7 +54,7 @@ function pippin_stripe_process_payment() {
 					// create a new customer if our current user doesn't have one
 					$customer = \Stripe\Customer::create(array(
 							'source' => $token,
-							'email' => strip_tags(trim($_POST['email']))
+							'email' => $email
 						)
 					);
  
@@ -71,17 +74,12 @@ function pippin_stripe_process_payment() {
 					);
 				}
 
-				// redirect on successful payment
-				// $redirect = add_query_arg('payment', 'paid', $_POST['redirect']);
-
 			} catch (Exception $e) {
-				// redirect on failed payment
+				// Stop on failed payment
 				wp_die($e);
-				// $redirect = add_query_arg('payment', 'failed', $_POST['redirect']);
 			}
 		}
-		// redirect back to our previous page with the added query variable
-		wp_redirect($_POST['redirect']); exit;
+		exit;
 	}
 }
 

@@ -15,7 +15,7 @@ function pippin_stripe_payment_form($atts, $content = null) {
 
 			<div class="form-row">
 				<label><?php _e('Email*', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" name="email"/>
+				<input type="text" size="20" autocomplete="off" class="email"/>
 			</div>
 
 			<div class="form-row">
