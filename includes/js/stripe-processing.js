@@ -18,7 +18,6 @@ function stripeResponseHandler(status, response) {
 
         var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=' + action + '&stripe_nonce=' + nounce + 
         	"&postID=" + post_id + "&email=" + email;
-        	//"&recurring=" + recurring
 
         if(document.getElementById("recurring")) {
         	if(document.getElementById("recurring").checked) {

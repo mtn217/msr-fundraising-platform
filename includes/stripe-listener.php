@@ -51,13 +51,16 @@ function pippin_stripe_event_listener() {
 					$message .= "Here is your confirmation number: ". $confirmation;
  
 					wp_mail($email, $subject, $message, $headers);
+
+					$post = get_post(url_to_postid(get_permalink()));
+					//console_log($post->fundraiser-amount-raised);
+					// $post->fundraiser-amount-raised = $amount; 
 				}
- 
 			} catch (Exception $e) {
 				// something failed, perhaps log a notice or email the site admin
 			}
 		}
-
 	}
 }
+
 add_action('init', 'pippin_stripe_event_listener');
