@@ -30,10 +30,11 @@ function stripeResponseHandler(status, response) {
 			type: "POST",
 			url: "process-payment.php",
 			data: dataString,
+			dataType: 'json',
 			success: function(data){
 				$('#payment-form').html("<div id='message'></div>");
 				$('#message').html("<h2>Thank you for your payment. Please check your email for your receipt.</h2>")
-					.append("<p>Your confirmation code is: </p>")
+					.append("<p>Your confirmation code is:  " + data.id + "</p>")
       				.hide()
       				.fadeIn(1000);
 			},

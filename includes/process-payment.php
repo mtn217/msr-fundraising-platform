@@ -97,6 +97,8 @@ function pippin_stripe_process_payment() {
 							'description' => $post_id
 						)
 					);
+					$transaction_json = $transaction->__toJSON();
+					echo $transaction_json;
 				}
 
 			} catch (Exception $e) {

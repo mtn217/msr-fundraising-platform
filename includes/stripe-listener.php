@@ -52,8 +52,6 @@ function pippin_stripe_event_listener() {
  
 					wp_mail($email, $subject, $message, $headers);
 
-					$post = get_post(url_to_postid(get_permalink()));
-					echo $post;
 					//console_log($post->fundraiser-amount-raised);
 					// $post->fundraiser-amount-raised = $amount; 
 				}
