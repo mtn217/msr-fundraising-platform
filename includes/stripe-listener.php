@@ -35,7 +35,6 @@ function pippin_stripe_event_listener() {
  
 				// successful payment, both one time and recurring payments
 				if($event->type == 'charge.succeeded') {
-					echo "Successful Event";
 					// retrieve the payer's information
 					$customer = \Stripe\Customer::retrieve($invoice->customer);
 					$email = $customer->email;
@@ -52,7 +51,6 @@ function pippin_stripe_event_listener() {
 					$message .= "Here is your confirmation number: ". $confirmation;
  
 					wp_mail($email, $subject, $message, $headers);
-					echo "Email Sent";
 				}
  
 			} catch (Exception $e) {

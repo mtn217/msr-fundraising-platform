@@ -79,6 +79,17 @@ function pippin_stripe_process_payment() {
 					}
 				}
 				if( $customer_id ) {
+					$customer = \Stripe\Customer::retrieve($customer_id);
+					if($customer->source != $token) {
+						$customer->source = $token;
+						$customer->save();
+					}
+
+					if($customer->email != $email) {
+						$customer->source = $email;
+						$customer->save();
+					}
+
 					$transaction = \Stripe\Charge::create(array(
 							'amount' => $amount, // amount in cents
 							'currency' => 'usd',
