@@ -1,6 +1,6 @@
 <?php
  
-function pippin_stripe_event_listener() {
+function stripe_event_listener() {
 	if(isset($_GET['stripe-listener']) && $_GET['stripe-listener'] == 'stripe') {
 		global $stripe_options;
 
@@ -42,18 +42,21 @@ function pippin_stripe_event_listener() {
  
 					$amount = $invoice->amount / 100; // amount comes in as amount in cents, so we need to convert to dollars
 					$confirmation = $invoice->id;
+					$post_id = $invoice->description;
+
+					#Update amount raised. 
+					$current_amount_raised = get_post_meta($post_id, 'fundraiser-amount-raised', true);
+					$current_amount_raised += $amount;
+					update_post_meta($post_id, 'fundraiser-amount-raised', $current_amount_raised);
  
+					# Send out confirmation email once charge is successful. 
 					$subject = __('Payment Receipt', 'pippin_stripe');
 					$headers = 'From: "' . html_entity_decode(get_bloginfo('name')) . '" <' . get_bloginfo('admin_email') . '>';
 					$message = "Hello " . $name . ",\n\n";
 					$message .= "You have successfully made a payment of $" . $amount . ".00\n\n";
 					$message .= "Thank you for your generosity.\n\n";
 					$message .= "Here is your confirmation number: ". $confirmation;
- 
 					wp_mail($email, $subject, $message, $headers);
-
-					//console_log($post->fundraiser-amount-raised);
-					// $post->fundraiser-amount-raised = $amount; 
 				}
 			} catch (Exception $e) {
 				// something failed, perhaps log a notice or email the site admin
@@ -62,4 +65,4 @@ function pippin_stripe_event_listener() {
 	}
 }
 
-add_action('init', 'pippin_stripe_event_listener');
+add_action('init', 'stripe_event_listener');
