@@ -105,10 +105,10 @@ function stripe_render_options_page() {
 				</ul>
 
 
-				<table style="width:100%">
+				<table style="width:100%; border: 3px solid black; border-collapse: collapse;">
 					<tr>
-			    		<th>Fundraiser Name</th>
-				    	<th>Status</th> 
+			    		<th style="border: 3px solid black;">Fundraiser Name</th>
+				    	<th style="border: 3px solid black;">Status</th> 
 				  	</tr>
 				<?php 
 					$args = array(
@@ -122,8 +122,8 @@ function stripe_render_options_page() {
 							$post = get_post();
 							?>
 							<tr>
-								<td> <a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a></td>
-								<td>Pending</td>
+								<td style="border: 3px solid black;"> <a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a></td>
+								<td style="border: 3px solid black;">Pending</td>
 							</tr>
 
 						<?php }

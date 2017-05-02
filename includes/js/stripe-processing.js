@@ -15,9 +15,10 @@ function stripeResponseHandler(status, response) {
         var recurring = $('.recurring').val();
         var email = $('.email').val();
         var action = $('.action').val();
+        var fullname = $('.name').val();
 
         var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=' + action + '&stripe_nonce=' + nounce + 
-        	"&postID=" + post_id + "&email=" + email;
+        	"&postID=" + post_id + "&email=" + email + "&name=" + fullname;
 
         if(document.getElementById("recurring")) {
         	if(document.getElementById("recurring").checked) {

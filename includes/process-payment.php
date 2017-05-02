@@ -17,6 +17,8 @@ function pippin_stripe_process_payment() {
 
 		$email = strip_tags(trim($_POST['email']));
 
+		$name = $_POST['name'];
+
 		// check if we are using test mode
 		if(isset($stripe_options['test_mode']) && $stripe_options['test_mode']) {
 			$secret_key = $stripe_options['test_secret_key'];
@@ -94,7 +96,9 @@ function pippin_stripe_process_payment() {
 							'amount' => $amount, // amount in cents
 							'currency' => 'usd',
 							'customer' => $customer_id,
-							'description' => $post_id
+							'description' => $post_id,
+							'metadata' => array(
+								'customer_name' => $name)
 						)
 					);
 					
