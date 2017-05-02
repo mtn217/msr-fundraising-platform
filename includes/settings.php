@@ -107,7 +107,9 @@ function stripe_render_options_page() {
 
 				<table style="width:100%; border: 3px solid black; border-collapse: collapse;">
 					<tr>
-			    		<th style="border: 3px solid black;">Fundraiser Name</th>
+						<th style="border: 3px solid black;"><input type="checkbox" /></th>
+			    		<th style="border: 3px solid black;">Fundraiser Title</th>
+			    		<th style="border: 3px solid black;">Fundraiser's Name</th>
 				    	<th style="border: 3px solid black;">Status</th> 
 				  	</tr>
 				<?php 
@@ -122,17 +124,21 @@ function stripe_render_options_page() {
 							$post = get_post();
 							?>
 							<tr>
+								<th style="border: 3px solid black;"><input type="checkbox" /></th>
 								<td style="border: 3px solid black;"> <a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a></td>
+								<td style="border: 3px solid black;"><?php 
+									$user = get_userdata(get_current_user_id());
+									echo $user->first_name . " " . $user->last_name; ?>	
+								</td>
 								<td style="border: 3px solid black;">Pending</td>
 							</tr>
 
 						<?php }
 					}
 				?>
-					<!--     <td>Michael's Fundraiser</td>
-					    <td>Pending</td> -->
 				</table>
-
+				<button>Approve Fundraisers</button>
+				<button>Reject Fundraisers</button>
 
 	        <?php } else { 
 	        	settings_fields('dashboard_group');
