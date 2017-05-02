@@ -104,6 +104,36 @@ function stripe_render_options_page() {
 				  	<li>List of people who have contributed to campaigns/fundraisers and their contact information</li>
 				</ul>
 
+
+				<table style="width:100%">
+					<tr>
+			    		<th>Fundraiser Name</th>
+				    	<th>Status</th> 
+				  	</tr>
+				<?php 
+					$args = array(
+					    'post_type' => 'fundraiser',
+					  	'post_status' => 'pending',
+					);
+					$post_query = new WP_Query($args);
+					if($post_query->have_posts() ) {
+						while($post_query->have_posts() ) {
+							$post_query->the_post();
+							$post = get_post();
+							?>
+							<tr>
+								<td> <a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a></td>
+								<td>Pending</td>
+							</tr>
+
+						<?php }
+					}
+				?>
+					<!--     <td>Michael's Fundraiser</td>
+					    <td>Pending</td> -->
+				</table>
+
+
 	        <?php } else { 
 	        	settings_fields('dashboard_group');
 				do_settings_sections('dashboard_group'); 
