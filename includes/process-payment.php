@@ -15,6 +15,10 @@ function pippin_stripe_process_payment() {
 
 		$post_id = $_POST['postID'];
 
+		$email = strip_tags(trim($_POST['email']));
+
+		$name = $_POST['name'];
+
 		// check if we are using test mode
 		if(isset($stripe_options['test_mode']) && $stripe_options['test_mode']) {
 			$secret_key = $stripe_options['test_secret_key'];
@@ -24,8 +28,23 @@ function pippin_stripe_process_payment() {
 
 		\Stripe\Stripe::setApiKey($secret_key);
 
-		if(isset($_POST['recurring']) && $_POST['recurring'] == 'recurring') { // process a recurring payment
+		if(isset($_POST['recurring']) && $_POST['recurring'] == 'recurring') { 
+			// process a recurring payment
  			$customer_id = get_user_meta( get_current_user_id(), '_stripe_customer_id', true );
+ 			if( !$customer_id ) {
+				// create a new customer if our current user doesn't have one
+				$customer = \Stripe\Customer::create(array(
+						'source' => $token,
+						'email' => $email
+					)
+				);
+
+				$customer_id = $customer->id;
+
+				if( is_user_logged_in () ) {
+					update_user_meta( get_current_user_id(), '_stripe_customer_id', $customer_id );
+				}
+			}
  			if( $customer_id ) {
 					$transaction = \Stripe\Subscription::create(array(
 						'customer' => $customer_id,
@@ -51,7 +70,7 @@ function pippin_stripe_process_payment() {
 					// create a new customer if our current user doesn't have one
 					$customer = \Stripe\Customer::create(array(
 							'source' => $token,
-							'email' => strip_tags(trim($_POST['email']))
+							'email' => $email
 						)
 					);
  
@@ -62,26 +81,37 @@ function pippin_stripe_process_payment() {
 					}
 				}
 				if( $customer_id ) {
+					$customer = \Stripe\Customer::retrieve($customer_id);
+					// if($customer->source != $token) {
+					// 	$customer->source = $token;
+					// 	$customer->save();
+					// }
+
+					// if($customer->email != $email) {
+					// 	$customer->source = $email;
+					// 	$customer->save();
+					// }
+
 					$transaction = \Stripe\Charge::create(array(
 							'amount' => $amount, // amount in cents
 							'currency' => 'usd',
 							'customer' => $customer_id,
-							'description' => $post_id
+							'description' => $post_id,
+							'metadata' => array(
+								'customer_name' => $name)
 						)
 					);
+					
+					$transaction_json = $transaction->__toJSON();
+					echo $transaction_json;
 				}
 
-				// redirect on successful payment
-				// $redirect = add_query_arg('payment', 'paid', $_POST['redirect']);
-
 			} catch (Exception $e) {
-				// redirect on failed payment
+				// Stop on failed payment
 				wp_die($e);
-				// $redirect = add_query_arg('payment', 'failed', $_POST['redirect']);
 			}
 		}
-		// redirect back to our previous page with the added query variable
-		wp_redirect($_POST['redirect']); exit;
+		exit;
 	}
 }
 

@@ -2,7 +2,6 @@
 
 function stripe_settings_setup() {
 	add_menu_page('MSR Donation Platform', 'MSR Donation Platform', 'manage_options', 'fundraising_settings', 'stripe_render_options_page', "dashicons-chart-line", 79);
-	//add_options_page('Stripe Settings', 'Stripe Settings', 'manage_options', 'stripe-settings', 'pippin_stripe_render_options_page');
 }
 
 add_action('admin_menu', 'stripe_settings_setup');
@@ -11,7 +10,6 @@ function stripe_render_options_page() {
 	global $stripe_options;
 	?>
 	<div class="wrap">
-<!-- 		<h2><?php _e('Stripe Settings', 'stripe'); ?></h2>  -->		
 		<h2><?php _e('Fundraising Platform Settings', 'stripe'); ?></h2>
 
  		<?php
@@ -88,30 +86,6 @@ function stripe_render_options_page() {
 						</tr>
 					</tbody>
 				</table>
-
-				<table class="form-table">
-					<tbody>
-						<tr valign="top">	
-							<th scope="row" valign="top">
-								<?php _e('Allow Recurring', 'stripe'); ?>
-							</th>
-							<td>
-								<input id="stripe_settings[recurring]" name="stripe_settings[recurring]" type="checkbox" value="1" <?php checked(1, $stripe_options['recurring']); ?> />
-								<label class="description" for="stripe_settings[recurring]"><?php _e('Check this to allow users to setup recurring payments.', 'stripe'); ?></label>
-							</td>
-						</tr>
-					</tbody>
-
-					<tr valign="top">	
-						<th scope="row" valign="top">
-							<?php _e('Plan ID', 'stripe'); ?>
-						</th>
-						<td>
-							<input id="stripe_settings[plan_id]" name="stripe_settings[plan_id]" class="regular-text" type="text" value="<?php echo $stripe_options['plan_id']; ?>"/>
-							<label class="description" for="stripe_settings[plan_id]"><?php _e('Enter the ID of the recurring plan you have created in Stripe', 'stripe'); ?></label>
-						</td>
-					</tr>	
-				</table>
 				
 		<!-- 		<p class="submit">
 					<input type="submit" class="button-primary" value="<?php _e('Save Options', 'mfwp_domain'); ?>" />
@@ -129,6 +103,42 @@ function stripe_render_options_page() {
 					<li>Table filled with pending fundraisers request to be approved or rejected</li>
 				  	<li>List of people who have contributed to campaigns/fundraisers and their contact information</li>
 				</ul>
+
+
+				<table style="width:100%; border: 3px solid black; border-collapse: collapse;">
+					<tr>
+						<th style="border: 3px solid black;"><input type="checkbox" /></th>
+			    		<th style="border: 3px solid black;">Fundraiser Title</th>
+			    		<th style="border: 3px solid black;">Fundraiser's Name</th>
+				    	<th style="border: 3px solid black;">Status</th> 
+				  	</tr>
+				<?php 
+					$args = array(
+					    'post_type' => 'fundraiser',
+					  	'post_status' => 'pending',
+					);
+					$post_query = new WP_Query($args);
+					if($post_query->have_posts() ) {
+						while($post_query->have_posts() ) {
+							$post_query->the_post();
+							$post = get_post();
+							?>
+							<tr>
+								<th style="border: 3px solid black;"><input type="checkbox" /></th>
+								<td style="border: 3px solid black;"> <a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a></td>
+								<td style="border: 3px solid black;"><?php 
+									$user = get_userdata(get_current_user_id());
+									echo $user->first_name . " " . $user->last_name; ?>	
+								</td>
+								<td style="border: 3px solid black;">Pending</td>
+							</tr>
+
+						<?php }
+					}
+				?>
+				</table>
+				<button>Approve Fundraisers</button>
+				<button>Reject Fundraisers</button>
 
 	        <?php } else { 
 	        	settings_fields('dashboard_group');
