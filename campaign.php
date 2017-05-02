@@ -35,6 +35,9 @@ function campaign_meta_box_add()
 function campaign_meta_box_cb($post) {
 	wp_nonce_field(basename(__FILE__), 'campaign_nonce'); ?>
 
+    <h3><label for="campaign-goal">Goal Amount</label></h3>
+    <input type="text" name="campaign-goal" id="campaign-goal" value="<?php echo esc_attr(get_post_meta($post->ID, 'campaign-goal', true)); ?>" />
+
     <h3><label for="campaign-start">Start Date</label></h3>
     <input type="date" name="campaign-start" id="campaign-start" value="<?php echo esc_attr(get_post_meta($post->ID, 'campaign-start', true)); ?>" />
 
@@ -51,6 +54,7 @@ function add_msr_nonce() {
 function save_campaign_form($post_id) {
     // if (!verify_save('campaign_nonce', $post_id))
     //     return $post_id;
+    update_custom_post($post_id, 'campaign_form', 'campaign-goal');
     update_custom_post($post_id, 'campaign_form', 'campaign-start');
     update_custom_post($post_id, 'campaign_form', 'campaign-end');
     flush_rewrite_rules();
