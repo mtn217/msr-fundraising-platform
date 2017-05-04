@@ -35,20 +35,20 @@ function stripe_event_listener() {
  
 				// successful payment, both one time and recurring payments
 				if($event->type == 'charge.succeeded') {
-					// retrieve the payer's information
-					$customer = \Stripe\Customer::retrieve($invoice->customer);
-					$email = $customer->email;
-					//$name = $customer->name;
- 
 					$amount = $invoice->amount / 100; // amount comes in as amount in cents, so we need to convert to dollars
-					$confirmation = $invoice->id;
-					$name = $invoice->metadata->customer_name;
 
 					#Update amount raised. 
 					$post_id = $invoice->description;
 					$current_amount_raised = get_post_meta($post_id, 'fundraiser-amount-raised', true);
-					$current_amount_raised += $amount;
+					$current_amount_raised = $current_amount_raised + $amount;
 					update_post_meta($post_id, 'fundraiser-amount-raised', $current_amount_raised);
+
+					// retrieve the payer's information
+					$customer = \Stripe\Customer::retrieve($invoice->customer);
+					$email = $customer->email;
+ 
+					$confirmation = $invoice->id;
+					$name = $invoice->metadata->customer_name;
  
 					# Send out confirmation email once charge is successful. 
 					$subject = __('Payment Receipt', 'pippin_stripe');
