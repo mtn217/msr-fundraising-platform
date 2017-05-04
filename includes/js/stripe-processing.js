@@ -45,22 +45,42 @@ function stripeResponseHandler(status, response) {
     }
 }
 jQuery(document).ready(function($) {
-	$("#stripe-payment-form").submit(function(event) {
-		// disable the submit button to prevent repeated clicks
-		$('#stripe-submit').attr("disabled", "disabled");
+	// Validates form
+	$.validate({
+		modules: 'date, security',
+		onSuccess: function($form) {
 
-		// send the card details to Stripe
-		Stripe.createToken({
-			number: $('.card-number').val(),
-			cvc: $('.card-cvc').val(),
-			exp_month: $('.card-expiry-month').val(),
-			exp_year: $('.card-expiry-year').val(),
-			name: $('.name').val(),
-			address_zip: $('.zipcode').val(),
-		}, stripeResponseHandler);
-
-		// prevent the form from submitting with the default action
-		event.preventDefault();
-		return false;
+			// send the card details to Stripe
+			Stripe.createToken({
+				number: $('.card-number').val(),
+				cvc: $('.card-cvc').val(),
+				exp_month: $('.card-expiry-month').val(),
+				exp_year: $('.card-expiry-year').val(),
+				name: $('.name').val(),
+				address_zip: $('.zipcode').val(),
+			}, stripeResponseHandler);
+			event.preventDefault();
+			return false;
+		}
 	});
+
+// 	$("#stripe-payment-form").submit(function(event) {
+// 		// disable the submit button to prevent repeated clicks
+// 		$('#stripe-submit').attr("disabled", "disabled");
+
+// 
+
+// 		// Stripe.createToken({
+// 		// 	number: $('.card-number').val(),
+// 		// 	cvc: $('.card-cvc').val(),
+// 		// 	exp_month: $('.card-expiry-month').val(),
+// 		// 	exp_year: $('.card-expiry-year').val(),
+// 		// 	name: $('.name').val(),
+// 		// 	address_zip: $('.zipcode').val(),
+// 		// }, stripeResponseHandler);
+
+// 		// prevent the form from submitting with the default action
+// 		event.preventDefault();
+// 		return false;
+// 	});
 });

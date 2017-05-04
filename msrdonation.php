@@ -13,15 +13,6 @@
    }
 
    $stripe_options = get_option('stripe_settings');
- // function donation_admin() {
- //     include('donation_admin.php');
- // }
-
-// function donation_admin_actions() {
-//     add_menu_page("MSR Donation Platform", "MSR Donation Platform", 1, "MSR Donation Platform", "donation_admin", "dashicons-chart-line", 79);
-// }
-
-// add_action('admin_menu', 'donation_admin_actions');
 
 
 if(is_admin()) {
@@ -31,15 +22,8 @@ if(is_admin()) {
   include(STRIPE_BASE_DIR . '/includes/scripts.php');
   include(STRIPE_BASE_DIR . '/includes/process-payment.php');
   include(STRIPE_BASE_DIR . '/includes/stripe-listener.php');
-   include(STRIPE_BASE_DIR . '/includes/stripe-functions.php');
+  include(STRIPE_BASE_DIR . '/includes/stripe-functions.php');
 }
-
-/*
-https://code.tutsplus.com/tutorials/create-a-custom-wordpress-plugin-from-scratch--net-2668
-https://codex.wordpress.org/Adding_Administration_Menus
-https://codex.wordpress.org/Plugin_API/Action_Reference
-https://codex.wordpress.org/Administration_Screens
-*/
 
 include('fundraiser.php');
 include('campaign.php');
