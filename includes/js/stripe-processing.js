@@ -47,7 +47,8 @@ function stripeResponseHandler(status, response) {
 jQuery(document).ready(function($) {
 	// Validates form
 	$.validate({
-		modules: 'date, security',
+		form : '#stripe-payment-form',
+		//modules: 'date, security',
 		onSuccess: function($form) {
 
 			// send the card details to Stripe
