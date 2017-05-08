@@ -47,6 +47,7 @@ function stripeResponseHandler(status, response) {
 jQuery(document).ready(function($) {
 	// Validates form
 	$.validate({
+		
 		form : '#stripe-payment-form',
 		//modules: 'date, security',
 		onSuccess: function($form) {
