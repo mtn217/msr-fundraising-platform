@@ -47,11 +47,10 @@ function stripeResponseHandler(status, response) {
 jQuery(document).ready(function($) {
 	// Validates form
 	$.validate({
-		
 		form : '#stripe-payment-form',
 		//modules: 'date, security',
 		onSuccess: function($form) {
-
+			$('#stripe-submit').attr("disabled", "disabled");
 			// send the card details to Stripe
 			Stripe.createToken({
 				number: $('.card-number').val(),

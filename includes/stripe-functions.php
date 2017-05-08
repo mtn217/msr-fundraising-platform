@@ -1,7 +1,6 @@
 <?php
 
-function get_total() {
-
+function get_campaign_total() {
 	global $stripe_options;
 
 	// load the stripe libraries
@@ -16,15 +15,25 @@ function get_total() {
 
 	\Stripe\Stripe::setApiKey($secret_key);
 
-	$customer_id = get_user_meta( get_current_user_id(), '_stripe_customer_id', true);
-	$charges = \Stripe\Charge::all(array('customer' => $customer_id, 'limit' => 50));
+	$campaign_funds = 0;
 
-	$total = 0;
-	if($charges) {
-		foreach($charges['data'] as $data) {
-			$total += $data['amount'];
+	$all_charges = \Stripe\Charge::all(array('limit' => 100));
+
+	$campaign_id = get_the_ID();
+	if($all_charges) {
+		foreach ($all_charges['data'] as $charge) {
+			if($charge['description'] == $campaign_id) {
+				$campaign_funds += $charge['amount'];
+			} else {
+				$fundraiser_id = $charge['description'];
+				$the_campaign = get_post_meta($fundraiser_id, 'fundraiser-campaign', true);
+				if($the_campaign == $campaign_id) {
+					$campaign_funds += $charge['amount'];
+				}
+			}
 		}
 	}
-	$total = $total / 100;
-	return $total;
+
+	$campaign_funds = $campaign_funds / 100;
+	return $campaign_funds;
 }

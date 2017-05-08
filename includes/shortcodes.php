@@ -54,19 +54,19 @@ function pippin_stripe_payment_form() {
 
 			<div class="form-row">
 				<label><?php _e('Card Number*', 'pippin_stripe'); ?></label>
-				<input data-validation="creditcard" data-validation-allowing="visa, mastercard, amex" type="text" size="20" autocomplete="off" class="card-number"/>
+				<input type="text" size="20" autocomplete="off" class="card-number"/>
 			</div>
 			<!-- Limit to 16 numbers only -->
 
 			<div class="form-row">
 				<label><?php _e('CVC*', 'pippin_stripe'); ?></label>
-				<input data-validation="cvv" type="text" size="4" autocomplete="off" class="card-cvc"/>
+				<input type="text" size="4" autocomplete="off" class="card-cvc"/>
 			</div>
 			<!-- Limit to 3 numbers only -->
 
 			<div class="form-row">
 				<label><?php _e('Expiration (MM/YYYY)*', 'pippin_stripe'); ?></label>
-				<input data-validation="number" data-validation-allowing="range[1;12]" type="text" size="2" class="card-expiry-month"/>
+				<input type="text" size="2" class="card-expiry-month"/>
 				<!-- Limit to 2 numbers only -->
 				<span> / </span>
 				<input type="text" size="4" class="card-expiry-year"/>
@@ -95,12 +95,12 @@ function pippin_stripe_payment_form() {
 
 }  
 
-function stripe_customer() {
+function stripe_campaign_total() {
 	ob_start();
-	$total_amount = get_total();
+	$total_amount = get_campaign_total();
 	echo '$' . $total_amount;
 	return ob_get_clean();
 }
 
 add_shortcode('payment', 'pippin_stripe_payment_form');
-add_shortcode('customer', 'stripe_customer');
+add_shortcode('campaign', 'stripe_campaign_total');
