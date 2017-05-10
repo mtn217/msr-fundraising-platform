@@ -48,6 +48,7 @@ jQuery(document).ready(function($) {
 	// Validates form
 	$.validate({
 		form : '#stripe-payment-form',
+		//modules: 'date, security',
 		onSuccess: function($form) {
 			$('#stripe-submit').attr("disabled", "disabled");
 			// send the card details to Stripe

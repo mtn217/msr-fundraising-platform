@@ -17,6 +17,7 @@ function get_campaign_total() {
 
 	$campaign_funds = 0;
 
+	// Fix this for pagination later on 
 	$all_charges = \Stripe\Charge::all(array('limit' => 100));
 
 	$campaign_id = get_the_ID();
@@ -24,12 +25,6 @@ function get_campaign_total() {
 		foreach ($all_charges['data'] as $charge) {
 			if($charge['description'] == $campaign_id) {
 				$campaign_funds += $charge['amount'];
-			} else {
-				$fundraiser_id = $charge['description'];
-				$the_campaign = get_post_meta($fundraiser_id, 'fundraiser-campaign', true);
-				if($the_campaign == $campaign_id) {
-					$campaign_funds += $charge['amount'];
-				}
 			}
 		}
 	}
