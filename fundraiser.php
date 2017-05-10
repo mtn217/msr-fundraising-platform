@@ -37,13 +37,13 @@ function fundraiser_meta_box_cb($post) {
     	wp_nonce_field(basename(__FILE__), 'fundraiser_nonce'); ?>
 
         <h3><label for="fundraiser-goal">Goal Amount</label></h3>
-        <input type="text" name="fundraiser-goal" id="fundraiser-goal" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-goal', true)); ?>" />
+        <input type="text" name="fundraiserGoal" id="fundraiser-goal" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-goal', true)); ?>" />
 
         <h3><label for="fundraiser-start">Start Date</label></h3>
-        <input type="date" name="fundraiser-start" id="fundraiser-start" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-start', true)); ?>" />
+        <input type="date" name="fundraiserStart" id="fundraiser-start" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-start', true)); ?>" />
 
         <h3><label for="fundraiser-end">End Date</label></h3>
-        <input type="date" name="fundraiser-end" id="fundraiser-end" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-end', true)); ?>" />
+        <input type="date" name="fundraiserEnd" id="fundraiser-end" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-end', true)); ?>" />
         
         <?php
     }
@@ -53,9 +53,9 @@ add_action('save_post', 'save_fundraiser_form');
 function save_fundraiser_form($post_id) {
     if (!verify_save('fundraiser_nonce', $post_id))
         return $post_id;
-    update_custom_post($post_id, 'fundraiser_form', 'fundraiser-goal');
-    update_custom_post($post_id, 'fundraiser_form', 'fundraiser-start');
-    update_custom_post($post_id, 'fundraiser_form', 'fundraiser-end');
+    update_custom_post($post_id, 'fundraiser_form', 'fundraiserGoal');
+    update_custom_post($post_id, 'fundraiser_form', 'fundraiserStart');
+    update_custom_post($post_id, 'fundraiser_form', 'fundraiserEsnd');
     flush_rewrite_rules();
 }
 
