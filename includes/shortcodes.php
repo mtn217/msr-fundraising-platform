@@ -2,15 +2,17 @@
 function pippin_stripe_payment_form() {
  
 	global $stripe_options;
+	$post_id = url_to_postid(get_permalink());
 
 	ob_start();
 
 	?>
+	<h1>Contribute</h1>
 	<div id="payment-form">
 		<form action="process-payment.php" method="POST" id="stripe-payment-form">
-			<div class="form-row">
-				<label><?php _e('Amount*', 'pippin_stripe'); ?></label>
-				<input data-validation="number" type="text" size="20" autocomplete="off" placeholder="$20" class="user-amount">
+			<h2><?php echo get_the_title($post_id); ?></h2>
+			<div class="amount">
+				<input data-validation="number" type="text" autocomplete="off" placeholder="$20" class="user-amount">
 			</div>
 			<!-- If left blank and must be greater than 1 and must only be numbers -->
 			
@@ -37,40 +39,34 @@ function pippin_stripe_payment_form() {
 			<!-- Letters and spaces only -->
 			
 			<div class="form-row">
-				<label><?php _e('Street', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" class="address"/>
-			</div>
-
-			<div class="form-row">
-				<label><?php _e('City', 'pippin_stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" class="city"/>
-			</div>
-
-			<div class="form-row">
 				<label><?php _e('Zipcode*', 'pippin_stripe'); ?></label>
 				<input data-validation="number" type="text" size="20" autocomplete="off" class="zipcode"/>
 			</div>
 			<!-- Limit to 5 numbers only -->
 
 			<div class="form-row">
-				<label><?php _e('Card Number*', 'pippin_stripe'); ?></label>
+				<label><?php _e('Card No*', 'pippin_stripe'); ?></label>
 				<input type="text" size="20" autocomplete="off" class="card-number"/>
 			</div>
 			<!-- Limit to 16 numbers only -->
 
 			<div class="form-row">
-				<label><?php _e('CVC*', 'pippin_stripe'); ?></label>
-				<input type="text" size="4" autocomplete="off" class="card-cvc"/>
+				
 			</div>
 			<!-- Limit to 3 numbers only -->
 
 			<div class="form-row">
-				<label><?php _e('Expiration (MM/YYYY)*', 'pippin_stripe'); ?></label>
-				<input type="text" size="2" class="card-expiry-month"/>
-				<!-- Limit to 2 numbers only -->
-				<span> / </span>
-				<input type="text" size="4" class="card-expiry-year"/>
-				<!-- Limit to 4 numbers only -->
+				<div class="expiration group">
+					<label><?php _e('Expiration Date*', 'pippin_stripe'); ?></label>
+					<input type="text" size="2" class="card-expiry-month" placeholder="MM"/>
+					<!-- Limit to 2 numbers only -->
+					<input type="text" size="4" class="card-expiry-year" placeholder="YYYY"/>
+					<!-- Limit to 4 numbers only -->
+				</div>
+				<div class="ccv group">
+					<label><?php _e('CVC*', 'pippin_stripe'); ?></label>
+					<input type="text" size="4" autocomplete="off" class="card-cvc"/>
+				</div>
 			</div>
 
 			<?php if(is_user_logged_in() && get_post_type() == "campaign") { ?>
