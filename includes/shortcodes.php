@@ -68,7 +68,6 @@ function pippin_stripe_payment_form() {
 					<input type="text" size="4" autocomplete="off" class="card-cvc"/>
 				</div>
 			</div>
-
 			<?php if(is_user_logged_in() && get_post_type() == "campaign") { ?>
 			<div class="form-row">
 				<input type="checkbox" id="recurring"/><span><?php _e('Recurring monthly payment', 'pippin_stripe'); ?></span>
@@ -76,7 +75,7 @@ function pippin_stripe_payment_form() {
 			<?php }  elseif(get_post_type() == "campaign") { ?>
  			<div class="form-row">
 				<label><?php _e('Sign In if you would like to set up recurring contribution (create link here)', 'pippin_stripe'); ?></label>
-			</div> 
+			</div>
 			<?php } ?>
 			<input type="hidden" class="action" value="stripe"/>
 			<input type="hidden" class="post_id" value="<?php 
@@ -87,6 +86,10 @@ function pippin_stripe_payment_form() {
 					echo $id;
 				}
 			?>"/>
+			<div class="form-row">
+				<input type="radio" name="display-name" value="regular-name">James S
+				<input class="anon" type="radio" name="display-name" value="anon-name">Anonymous
+			</div>
 			<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 			<button type="submit" id="stripe-submit"><?php _e('Submit Payment', 'pippin_stripe'); ?></button>
 		</form>
