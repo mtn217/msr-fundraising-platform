@@ -55,7 +55,7 @@ function save_fundraiser_form($post_id) {
         return $post_id;
     update_custom_post($post_id, 'fundraiser_form', 'fundraiserGoal');
     update_custom_post($post_id, 'fundraiser_form', 'fundraiserStart');
-    update_custom_post($post_id, 'fundraiser_form', 'fundraiserEsnd');
+    update_custom_post($post_id, 'fundraiser_form', 'fundraiserEnd');
     flush_rewrite_rules();
 }
 

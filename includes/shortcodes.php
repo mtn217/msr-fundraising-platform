@@ -83,7 +83,14 @@ function pippin_stripe_payment_form() {
 			</div> 
 			<?php } ?>
 			<input type="hidden" class="action" value="stripe"/>
-			<input type="hidden" class="post_id" value="<?php echo url_to_postid(get_permalink()); ?>"/>
+			<input type="hidden" class="post_id" value="<?php 
+				$id = url_to_postid(get_permalink());
+				if(is_page($id)) {
+					echo "general";
+				} else {
+					echo $id;
+				}
+			?>"/>
 			<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 			<button type="submit" id="stripe-submit"><?php _e('Submit Payment', 'pippin_stripe'); ?></button>
 		</form>
