@@ -16,17 +16,22 @@ function stripeResponseHandler(status, response) {
         var email = $('.email').val();
         var action = $('.action').val();
         var fullname = $('.name').val();
-    	alert("Option selected: " + $("input:checked").val());
+        var isAnon = $("input:checked").val();
+
+        if(isAnon == "anonymous") {
+        	var anon = "true";
+        } else {
+        	var anon = "false";
+        }
        
         var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=' + action + '&stripe_nonce=' + nounce + 
-        	"&postID=" + post_id + "&email=" + email + "&name=" + fullname;
+        	"&postID=" + post_id + "&email=" + email + "&name=" + fullname + "&anonymous=" + anon;
 
         if(document.getElementById("recurring")) {
         	if(document.getElementById("recurring").checked) {
         		dataString = dataString.concat("&recurring=recurring");
         	}
         }
-   
     	$.ajax({
 			type: "POST",
 			url: "process-payment.php",

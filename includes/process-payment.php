@@ -19,6 +19,8 @@ function pippin_stripe_process_payment() {
 
 		$name = $_POST['name'];
 
+		$anonymous = $_POST['anonymous'];
+
 		// check if we are using test mode
 		if(isset($stripe_options['test_mode']) && $stripe_options['test_mode']) {
 			$secret_key = $stripe_options['test_secret_key'];
@@ -98,7 +100,8 @@ function pippin_stripe_process_payment() {
 							'customer' => $customer_id,
 							'description' => $post_id,
 							'metadata' => array(
-								'customer_name' => $name)
+								'customer_name' => $name,
+								'anonymous' => $anonymous)
 						)
 					);
 					

@@ -88,7 +88,7 @@ function pippin_stripe_payment_form() {
 			?>"/>
 			<div class="form-row">
 				<input type="radio" name="display-name" value="regular-name">James S
-				<input class="anon" type="radio" name="display-name" value="anon-name">Anonymous
+				<input class="anon" type="radio" name="display-name" value="anonymous">Anonymous
 			</div>
 			<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 			<button type="submit" id="stripe-submit"><?php _e('Submit Payment', 'pippin_stripe'); ?></button>
