@@ -1,5 +1,5 @@
 <?php
-function pippin_stripe_payment_form() {
+function stripe_payment_form() {
  
 	global $stripe_options;
 	$post_id = url_to_postid(get_permalink());
@@ -23,7 +23,7 @@ function pippin_stripe_payment_form() {
 			<!-- If left blank and must be greater than 1 and must only be numbers -->
 			
 			<div class="form-row">
-				<label><?php _e('Email*', 'pippin_stripe'); ?></label>
+				<label><?php _e('Email*', 'stripe'); ?></label>
 				<input data-validation="email" type="text" size="20" autocomplete="off" class="email" value="<?php  
 					if(is_user_logged_in()) {
 						$user = get_userdata(get_current_user_id());
@@ -34,19 +34,19 @@ function pippin_stripe_payment_form() {
 			<!-- Must be an email -->
 			
 			<div class="form-row">
-				<label><?php _e('Name*', 'pippin_stripe'); ?></label>
+				<label><?php _e('Name*', 'stripe'); ?></label>
 				<input data-validation="alphanumeric" data-validation-allowing=" " type="text" size="20" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/>
 			</div>
 			<!-- Letters and spaces only -->
 			
 			<div class="form-row">
-				<label><?php _e('Zipcode*', 'pippin_stripe'); ?></label>
+				<label><?php _e('Zipcode*', 'stripe'); ?></label>
 				<input data-validation="number" type="text" size="20" autocomplete="off" class="zipcode"/>
 			</div>
 			<!-- Limit to 5 numbers only -->
 
 			<div class="form-row">
-				<label><?php _e('Card No*', 'pippin_stripe'); ?></label>
+				<label><?php _e('Card No*', 'stripe'); ?></label>
 				<input type="text" size="20" autocomplete="off" class="card-number"/>
 			</div>
 			<!-- Limit to 16 numbers only -->
@@ -58,14 +58,14 @@ function pippin_stripe_payment_form() {
 
 			<div class="form-row">
 				<div class="expiration group">
-					<label><?php _e('Expiration Date*', 'pippin_stripe'); ?></label>
+					<label><?php _e('Expiration Date*', 'stripe'); ?></label>
 					<input type="text" size="2" class="card-expiry-month" placeholder="MM"/>
 					<!-- Limit to 2 numbers only -->
 					<input type="text" size="4" class="card-expiry-year" placeholder="YYYY"/>
 					<!-- Limit to 4 numbers only -->
 				</div>
 				<div class="ccv group">
-					<label><?php _e('CVC*', 'pippin_stripe'); ?></label>
+					<label><?php _e('CVC*', 'stripe'); ?></label>
 					<input type="text" size="4" autocomplete="off" class="card-cvc"/>
 				</div>
 			</div>
@@ -74,7 +74,7 @@ function pippin_stripe_payment_form() {
 				<h2>Contribution Appearance</h2>
 				<?php echo info_svg(); ?>
 				<div class="name-input">
-					<input type="radio" name="appearance" id="user-name" checked value="<?php echo get_current_user_id(); ?>"/>
+					<input type="radio" name="appearance" id="user-name" checked value="display-name"/>
 					<label for="user-name"><input type="text" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/></label>
 				</div>
 				<div class="anonymous">
@@ -92,7 +92,14 @@ function pippin_stripe_payment_form() {
 			</div> 
 			<?php } ?>
 			<input type="hidden" class="action" value="stripe"/>
-			<input type="hidden" class="post_id" value="<?php echo $post_id; ?>"/>
+			<input type="hidden" class="post_id" value="<?php 
+				$id = url_to_postid(get_permalink());
+				if(is_page($id)) {
+					echo "general";
+				} else {
+					echo $id;
+				}
+			?>"/>
 			<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 			<div class="buttons">
 				<button type="submit" id="stripe-submit"><?php _e('Submit', 'pippin_stripe'); ?></button>
@@ -113,5 +120,5 @@ function stripe_campaign_total() {
 	return ob_get_clean();
 }
 
-add_shortcode('payment', 'pippin_stripe_payment_form');
+add_shortcode('payment', 'stripe_payment_form');
 add_shortcode('campaign', 'stripe_campaign_total');
