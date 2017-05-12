@@ -1,6 +1,6 @@
 <?php
 
-function pippin_stripe_process_payment() {
+function stripe_process_payment() {
 	if(isset($_POST['action']) && $_POST['action'] == 'stripe' && wp_verify_nonce($_POST['stripe_nonce'], 'stripe-nonce')) {
 
 		global $stripe_options;
@@ -48,16 +48,18 @@ function pippin_stripe_process_payment() {
 				}
 			}
  			if( $customer_id ) {
-					$transaction = \Stripe\Subscription::create(array(
-						'customer' => $customer_id,
-						'plan' => 'contributions',
-						'quantity' => ($amount / 100),
-						'metadata' => array(
-							'description' => $post_id)
-						)
-					);
-				}
- 
+				$transaction = \Stripe\Subscription::create(array(
+					'customer' => $customer_id,
+					'plan' => 'contributions',
+					'quantity' => ($amount / 100),
+					'metadata' => array(
+						'description' => $post_id)
+					)
+				);
+				$transaction_json = $transaction->__toJSON();
+				echo $transaction_json;
+			}
+
 		} else { // process a one-time payment
 
 		// attempt to charge the customer's card
@@ -118,4 +120,4 @@ function pippin_stripe_process_payment() {
 	}
 }
 
-add_action('init', 'pippin_stripe_process_payment');
+add_action('init', 'stripe_process_payment');

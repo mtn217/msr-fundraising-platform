@@ -32,6 +32,7 @@ function stripeResponseHandler(status, response) {
         		dataString = dataString.concat("&recurring=recurring");
         	}
         }
+        alert(dataString);
     	$.ajax({
 			type: "POST",
 			url: "process-payment.php",
