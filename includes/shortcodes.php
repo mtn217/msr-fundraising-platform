@@ -3,6 +3,11 @@ function pippin_stripe_payment_form() {
  
 	global $stripe_options;
 	$post_id = url_to_postid(get_permalink());
+	$user_name = "";
+	if(is_user_logged_in()) {
+		$user = get_userdata(get_current_user_id());
+		$user_name = $user->first_name . " " . $user->last_name;
+	}
 
 	ob_start();
 
@@ -12,7 +17,8 @@ function pippin_stripe_payment_form() {
 		<form action="process-payment.php" method="POST" id="stripe-payment-form">
 			<h2><?php echo get_the_title($post_id); ?></h2>
 			<div class="amount">
-				<input data-validation="number" type="text" autocomplete="off" placeholder="$20" class="user-amount">
+				<?php echo dollar_svg(); ?>
+				<input data-validation="number" type="text" autocomplete="off" class="user-amount">
 			</div>
 			<!-- If left blank and must be greater than 1 and must only be numbers -->
 			
@@ -29,12 +35,7 @@ function pippin_stripe_payment_form() {
 			
 			<div class="form-row">
 				<label><?php _e('Name*', 'pippin_stripe'); ?></label>
-				<input data-validation="alphanumeric" data-validation-allowing=" " type="text" size="20" autocomplete="off" class="name" value="<?php  
-					if(is_user_logged_in()) {
-						$user = get_userdata(get_current_user_id());
-						echo $user->first_name . " " . $user->last_name;
-					}
-				?>"/>
+				<input data-validation="alphanumeric" data-validation-allowing=" " type="text" size="20" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/>
 			</div>
 			<!-- Letters and spaces only -->
 			
@@ -69,6 +70,18 @@ function pippin_stripe_payment_form() {
 				</div>
 			</div>
 
+			<div class="appearance">
+				<h2>Contribution Appearance</h2>
+				<?php echo info_svg(); ?>
+				<div class="name-input">
+					<input type="radio" name="appearance" id="user-name" checked value="<?php echo get_current_user_id(); ?>"/>
+					<label for="user-name"><input type="text" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/></label>
+				</div>
+				<div class="anonymous">
+					<input type="radio" id="anonym" name="appearance" value="anonymous"/><label for="anonym">Anonymous</label>
+				</div>
+			</div>
+
 			<?php if(is_user_logged_in() && get_post_type() == "campaign") { ?>
 			<div class="form-row">
 				<input type="checkbox" id="recurring"/><span><?php _e('Recurring monthly payment', 'pippin_stripe'); ?></span>
@@ -81,7 +94,9 @@ function pippin_stripe_payment_form() {
 			<input type="hidden" class="action" value="stripe"/>
 			<input type="hidden" class="post_id" value="<?php echo $post_id; ?>"/>
 			<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
-			<button type="submit" id="stripe-submit"><?php _e('Submit Payment', 'pippin_stripe'); ?></button>
+			<div class="buttons">
+				<button type="submit" id="stripe-submit"><?php _e('Submit', 'pippin_stripe'); ?></button>
+			</div>
 		</form>
 		<div class="payment-errors"></div>
 	</div>
