@@ -8,6 +8,7 @@ function stripe_payment_form() {
 		$user = get_userdata(get_current_user_id());
 		$user_name = $user->first_name . " " . $user->last_name;
 	}
+	$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 	ob_start();
 
@@ -15,7 +16,14 @@ function stripe_payment_form() {
 	<h1>Contribute</h1>
 	<div id="payment-form">
 		<form action="process-payment.php" method="POST" id="stripe-payment-form">
-			<h2><?php echo get_the_title($post_id); ?></h2>
+			<h2><?php 
+				$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+				$id = url_to_postid($actual_link);
+				if(strpos($actual_link, '/contribute/')) {
+					echo 'General Contribution to MSR Global Health';
+				} else {
+					echo get_the_title($id);
+				}?></h2>
 			<div class="amount">
 				<?php echo dollar_svg(); ?>
 				<input data-validation="number" type="text" autocomplete="off" class="user-amount">
@@ -70,45 +78,52 @@ function stripe_payment_form() {
 				</div>
 			</div>
 
-			<div class="appearance">
-				<h2>Contribution Appearance</h2>
-				<?php echo info_svg(); ?>
-				<div class="name-input">
-					<input type="radio" name="appearance" id="user-name" checked value="display-name"/>
-					<label for="user-name"><input type="text" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/></label>
+			<?php if(!strpos($actual_link, '/contribute/')) { ?>
+				<div class="appearance">
+					<h2>Contribution Appearance</h2>
+					<?php echo info_svg(); ?>
+					<div class="name-input">
+						<input type="radio" name="appearance" id="user-name" checked value="display-name"/>
+						<label for="user-name"><input type="text" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/></label>
+					</div>
+					<div class="anonymous">
+						<input type="radio" id="anonym" name="appearance" value="anonymous"/><label for="anonym">Anonymous</label>
+					</div>
 				</div>
-				<div class="anonymous">
-					<input type="radio" id="anonym" name="appearance" value="anonymous"/><label for="anonym">Anonymous</label>
-				</div>
-			</div>
+			<?php } ?>
 
-			<?php if(is_user_logged_in() && get_post_type() == "campaign") { ?>
+			<?php if(is_user_logged_in() && strpos($actual_link, '/contribute/')) { ?>
 			<div class="form-row">
-				<input type="checkbox" id="recurring"/><span><?php _e('Recurring monthly payment', 'pippin_stripe'); ?></span>
+				<input class="r-input-check" type="checkbox" id="recurring"/>Recurring monthly payment
 			</div>
-			<?php }  elseif(get_post_type() == "campaign") { ?>
+			<?php }  elseif(strpos($actual_link, '/contribute/')) { ?>
  			<div class="form-row">
-				<label><?php _e('Sign In if you would like to set up recurring contribution (create link here)', 'pippin_stripe'); ?></label>
+				<label>Sign In if you would like to set up recurring contribution<br><a id="log-in" href="/#wow-modal-id-3">Log in</a></label>
 			</div> 
 			<?php } ?>
 			<input type="hidden" class="action" value="stripe"/>
 			<input type="hidden" class="post_id" value="<?php 
-				$id = url_to_postid(get_permalink());
-				if(is_page($id)) {
-					echo "general";
+				$id = url_to_postid($actual_link);
+				if(strpos($actual_link, '/contribute/')) {
+					echo 'general';
 				} else {
 					echo $id;
 				}
 			?>"/>
 			<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 			<div class="buttons">
-				<button type="submit" id="stripe-submit"><?php _e('Submit', 'pippin_stripe'); ?></button>
+				<button type="submit" id="stripe-submit"><?php _e('Submit', 'stripe'); ?></button>
 			</div>
 		</form>
 		<div class="payment-errors"></div>
 	</div>
-		<?php
 
+	<script type="text/javascript"> 
+		$('#log-in').click(function() {
+			document.getElementById('wow-modal-overlay-1').style.display = "none";
+		});
+	</script>
+		<?php
 	return ob_get_clean();
 
 }  
