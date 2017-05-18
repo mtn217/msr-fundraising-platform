@@ -84,7 +84,7 @@ function stripe_payment_form() {
 					<?php echo info_svg(); ?>
 					<div class="name-input">
 						<input type="radio" name="appearance" id="user-name" checked value="display-name"/>
-						<label for="user-name"><input type="text" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/></label>
+						<label for="display-name"><input type="text" name="display-name" class="display-name" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/></label>
 					</div>
 					<div class="anonymous">
 						<input type="radio" id="anonym" name="appearance" value="anonymous"/><label for="anonym">Anonymous</label>

@@ -17,6 +17,7 @@ function stripeResponseHandler(status, response) {
         var action = $('.action').val();
         var fullname = $('.name').val();
         var isAnon = $("input:checked").val();
+        var displayName = $(".display-name").val();
 
         if(isAnon == "anonymous") {
         	var anon = "true";
@@ -26,6 +27,11 @@ function stripeResponseHandler(status, response) {
        
         var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=' + action + '&stripe_nonce=' + nounce + 
         	"&postID=" + post_id + "&email=" + email + "&name=" + fullname + "&anonymous=" + anon;
+
+        if(anon == "false") {
+        	var addOn = "&display_name=" + displayName;
+        	dataString += addOn;
+        }
 
         if(document.getElementById("recurring")) {
         	if(document.getElementById("recurring").checked) {
