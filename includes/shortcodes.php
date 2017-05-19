@@ -42,7 +42,7 @@ function stripe_payment_form() {
 			<!-- Must be an email -->
 			
 			<div class="form-row">
-				<label><?php _e('Name*', 'stripe'); ?></label>
+				<label><?php _e('Cardholder Name*', 'stripe'); ?></label>
 				<input data-validation="alphanumeric" data-validation-allowing=" " type="text" size="20" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/>
 			</div>
 			<!-- Letters and spaces only -->
