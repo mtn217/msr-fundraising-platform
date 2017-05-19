@@ -26,5 +26,4 @@ if(is_admin()) {
 }
 
 include('fundraiser.php');
-include('campaign.php');
 ?>
