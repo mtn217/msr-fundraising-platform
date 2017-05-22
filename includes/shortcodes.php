@@ -135,5 +135,23 @@ function stripe_campaign_total() {
 	return ob_get_clean();
 }
 
+function default_images() {
+	// put this in a modal that pops up on click of choose button and closes once they click an image
+	$args = array(
+        'post_type' => 'attachment',
+        'post_mime_type' =>'image',
+        's' => 'featured-image',
+        'post_status' => 'inherit'
+    );
+    $query_images = new WP_Query( $args );
+    $images = array();
+    foreach ( $query_images->posts as $image) {
+        $images[]= $image->guid;
+        echo '<button class="default" id="' . $image->ID . '"><img src="' . $image->guid . '" /></button>';
+
+    }
+}
+
 add_shortcode('payment', 'stripe_payment_form');
 add_shortcode('campaign', 'stripe_campaign_total');
+add_shortcode('default_images', 'default_images');
