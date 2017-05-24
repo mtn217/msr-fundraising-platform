@@ -152,6 +152,40 @@ function default_images() {
     }
 }
 
+function fundraiser_listing() {
+	$args = array(
+        'post_type' => 'fundraiser',
+        'post_status' => 'publish'
+    );
+
+    $query_funds = new WP_Query($args);
+
+    $featured = array();
+    $recently_added = array();
+    $ending_soon = array();
+    $past = array();
+    $other = array();
+
+    foreach ($query_funds->posts as $fund) {
+    	
+    	if ($fund->post_author == 1) {
+    		array_push($featured, $fund);
+    		continue;
+    	}
+    	$id = $fund->ID;
+    	if (get_post_meta($id, 'fundraiser-end', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) < 11) {
+    		array_push($ending_soon, $fund);
+    	} else if(get_post_meta($id, 'fundraiser-end', true) != "" && abs(get_fundraising_days_left(get_post_meta($id, 'fundraiser-start', true))) < 11) {
+    		array_push($recently_added, $fund);
+    	} else if (get_post_meta($id, 'fundraiser-end', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) < 0) {
+    		array_push($past, $fund);
+    	} else {
+    		array_push($other, $fund);
+    	}
+    }
+}
+
 add_shortcode('payment', 'stripe_payment_form');
 add_shortcode('campaign', 'stripe_campaign_total');
 add_shortcode('default_images', 'default_images');
+add_shortcode('listing', 'fundraiser_listing');

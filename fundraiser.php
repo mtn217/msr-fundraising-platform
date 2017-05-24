@@ -20,7 +20,7 @@ function create_fundraiser_post_type() {
 	    array(
 	      'labels' => $labels,
 	      'public' => true,
-	      'has_archive' => true,
+	      'has_archive' => false,
           'supports' => array( 'thumbnail', 'comments', 'author', 'editor', 'title' ),
 	    )
 	);
@@ -36,14 +36,14 @@ function fundraiser_meta_box_cb($post) {
     if($post->post_type == 'fundraiser') {
     	wp_nonce_field(basename(__FILE__), 'fundraiser_nonce'); ?>
 
-        <h3><label for="fundraiser-goal">Goal Amount</label></h3>
-        <input type="text" name="fundraiserGoal" id="fundraiser-goal" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-goal', true)); ?>" />
+        <h3><label for="fundraiserGoal">Goal Amount</label></h3>
+        <input type="text" name="fundraiserGoal" id="fundraiserGoal" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiserGoal', true)); ?>" />
 
-        <h3><label for="fundraiser-start">Start Date</label></h3>
-        <input type="date" name="fundraiserStart" id="fundraiser-start" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-start', true)); ?>" />
+        <h3><label for="fundraiserStart">Start Date</label></h3>
+        <input type="date" name="fundraiserStart" id="fundraiserStart" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiserStart', true)); ?>" />
 
-        <h3><label for="fundraiser-end">End Date</label></h3>
-        <input type="date" name="fundraiserEnd" id="fundraiser-end" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiser-end', true)); ?>" />
+        <h3><label for="fundraiserEnd">End Date</label></h3>
+        <input type="date" name="fundraiserEnd" id="fundraiserEnd" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiserEnd', true)); ?>" />
         
         <?php
     }
