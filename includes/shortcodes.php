@@ -3,95 +3,101 @@ function stripe_payment_form() {
  
 	global $stripe_options;
 	$post_id = url_to_postid(get_permalink());
-	$user_name = "";
+	$user_first = "";
+	$user_last = "";
 	if(is_user_logged_in()) {
 		$user = get_userdata(get_current_user_id());
-		$user_name = $user->first_name . " " . $user->last_name;
+		$user_first = $user->first_name;
+		$user_last = $user->last_name;
 	}
 	$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
 	ob_start();
 
 	?>
-	<h1>Contribute</h1>
 	<div id="payment-form">
 		<form action="process-payment.php" method="POST" id="stripe-payment-form">
-			<h2><?php 
-				$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-				$id = url_to_postid($actual_link);
-				if(strpos($actual_link, '/contribute/')) {
-					echo 'General Contribution to MSR Global Health';
-				} else {
-					echo get_the_title($id);
-				}?></h2>
-			<div class="amount">
-				<?php echo dollar_svg(); ?>
-				<input data-validation="number" type="text" autocomplete="off" class="user-amount">
-			</div>
-			<!-- If left blank and must be greater than 1 and must only be numbers -->
-			
-			<div class="form-row">
-				<label><?php _e('Email*', 'stripe'); ?></label>
-				<input data-validation="email" type="text" size="20" autocomplete="off" class="email" value="<?php  
-					if(is_user_logged_in()) {
-						$user = get_userdata(get_current_user_id());
-						echo $user->user_email;
-					}
-				?>"/>
-			</div>
-			<!-- Must be an email -->
-			
-			<div class="form-row">
-				<label><?php _e('Cardholder Name*', 'stripe'); ?></label>
-				<input data-validation="alphanumeric" data-validation-allowing=" " type="text" size="20" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/>
-			</div>
-			<!-- Letters and spaces only -->
-			
-			<div class="form-row">
-				<label><?php _e('Zipcode*', 'stripe'); ?></label>
-				<input data-validation="number" type="text" size="20" autocomplete="off" class="zipcode"/>
-			</div>
-			<!-- Limit to 5 numbers only -->
-
-			<div class="form-row">
-				<label><?php _e('Card No*', 'stripe'); ?></label>
-				<input type="text" size="20" autocomplete="off" class="card-number"/>
-			</div>
-			<!-- Limit to 16 numbers only -->
-
-			<div class="form-row">
-				
-			</div>
-			<!-- Limit to 3 numbers only -->
-
-			<div class="form-row">
-				<div class="expiration group">
-					<label><?php _e('Expiration Date*', 'stripe'); ?></label>
-					<input type="text" size="2" class="card-expiry-month" placeholder="MM"/>
-					<!-- Limit to 2 numbers only -->
-					<input type="text" size="4" class="card-expiry-year" placeholder="YYYY"/>
-					<!-- Limit to 4 numbers only -->
+			<div class="left">
+				<h2><?php 
+					$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+					$id = url_to_postid($actual_link);
+					if(strpos($actual_link, '/contribute/')) {
+						echo 'General Contribution to MSR Global Health';
+					} else {
+						echo get_the_title($id);
+					}?>
+				</h2>
+				<div class="default-amounts">
+					<?php foreach (["25", "50", "100", "500"] as $amount) { ?>
+						<button class="default-amount" id="<?php echo $amount; ?>">$<?php echo $amount; ?></button>
+					<?php } ?>
 				</div>
-				<div class="ccv group">
-					<label><?php _e('CVC*', 'stripe'); ?></label>
-					<input type="text" size="4" autocomplete="off" class="card-cvc"/>
-				</div>
-			</div>
-
-			<?php if(!strpos($actual_link, '/contribute/')) { ?>
-				<div class="appearance">
-					<h2>Contribution Appearance</h2>
-					<?php echo info_svg(); ?>
-					<div class="name-input">
-						<input type="radio" name="appearance" id="user-name" checked value="display-name"/>
-						<label for="display-name"><input type="text" name="display-name" class="display-name" autocomplete="off" class="name" value="<?php echo $user_name; ?>"/></label>
-					</div>
-					<div class="anonymous">
-						<input type="radio" id="anonym" name="appearance" value="anonymous"/><label for="anonym">Anonymous</label>
+				<div class="form-row amount">
+					<p>Your contribution:</p>
+					<p class="subtext"><span id="num-affected">48</span> people will receive safe water</p>
+					<div>
+						<?php echo dollar_svg(); ?>
+						<input data-validation="number" type="text" autocomplete="off" class="user-amount">
 					</div>
 				</div>
-			<?php } ?>
-
+				<h4>Your Information</h4>
+				<div class="form-row split-row">
+					<div class="first">
+						<label><?php _e('First Name*', 'stripe'); ?></label>
+						<input data-validation="alphanumeric" data-validation-allowing=" " type="text" autocomplete="off" class="first-name" value="<?php echo $user_first; ?>"/>
+					</div>
+					<div class="second">
+						<label><?php _e('Last Name*', 'stripe'); ?></label>
+						<input data-validation="alphanumeric" data-validation-allowing=" " type="text" autocomplete="off" class="last-name" value="<?php echo $user_last; ?>"/>
+					</div>
+				</div>
+				<div class="form-row check-input">
+					<input type="checkbox" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?> <?php echo info_svg(); ?></label>
+				</div>
+				<div class="form-row">
+					<label><?php _e('Email*', 'stripe'); ?></label>
+					<input data-validation="email" type="text" size="20" autocomplete="off" class="email" value="<?php  
+						if(is_user_logged_in()) {
+							$user = get_userdata(get_current_user_id());
+							echo $user->user_email;
+						}
+					?>"/>
+					<p class="helper-text">Your reciept will be emailed here.
+				</div>
+				<div class="form-row check-input">
+					<input type="checkbox" name="anonymous" checked /><label><?php _e('Subscribe to MSR Global Health updates', 'stripe'); ?></label>
+				</div>
+			</div>
+			<div class="right">
+				<h4>Payment Details</h4>
+				<div class="form-row">
+					<label><?php _e('Card No*', 'stripe'); ?></label>
+					<input type="text" size="20" autocomplete="off" class="card-number"/>
+				</div>
+				<div class="form-row">
+					<label><?php _e('Cardholder Name*', 'stripe'); ?></label>
+					<input data-validation="alphanumeric" data-validation-allowing=" " type="text" size="20" autocomplete="off" class="name" />
+				</div>
+				<div class="form-row">
+					<div class="expiration group">
+						<label><?php _e('Expiration Date*', 'stripe'); ?></label>
+						<input type="text" size="2" class="card-expiry-month" placeholder="MM"/>
+						<!-- Limit to 2 numbers only -->
+						<input type="text" size="4" class="card-expiry-year" placeholder="YYYY"/>
+						<!-- Limit to 4 numbers only -->
+					</div>
+					<div class="ccv group">
+						<label><?php _e('CVC*', 'stripe'); ?></label>
+						<input type="text" size="4" autocomplete="off" class="card-cvc"/>
+					</div>
+				</div>
+				<?php if(is_user_logged_in()) { ?>
+					<div class="comment-form">
+						<?php comment_form(array('title_reply' => __( 'Leave a Comment', 'textdomain' ), 'comment_notes_after' => ''), $post_id); ?>
+					</div>
+				<?php } ?>
+			</div>
+			
 			<?php if(is_user_logged_in() && strpos($actual_link, '/contribute/')) { ?>
 			<div class="form-row">
 				<input class="r-input-check" type="checkbox" id="recurring"/>Recurring monthly payment
@@ -147,7 +153,7 @@ function default_images() {
     $images = array();
     foreach ( $query_images->posts as $image) {
         $images[]= $image->guid;
-        echo '<button class="default" id="' . $image->ID . '"><img src="' . $image->guid . '" /></button>';
+        echo '<button class="default" id="' . $image->ID . '" data-dismiss="modal" aria-label="Close"><img src="' . $image->guid . '" /></button>';
 
     }
 }
