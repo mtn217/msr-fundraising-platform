@@ -34,7 +34,7 @@ function stripe_payment_form() {
 				</div>
 				<div class="form-row amount">
 					<p>Your contribution:</p>
-					<p class="subtext"><span id="num-affected">48</span> people will receive safe water</p>
+					<p class="subtext">&nbsp;</p>
 					<div>
 						<?php echo dollar_svg(); ?>
 						<input data-validation="number" type="text" autocomplete="off" class="user-amount">
@@ -118,6 +118,7 @@ function stripe_payment_form() {
 				?>"/>
 				<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 				<div class="buttons">
+					<button type="button" class="cancel" data-dismiss="modal" aria-label="Close">Cancel</button>
 					<button type="submit" id="stripe-submit"><?php _e('Submit', 'stripe'); ?></button>
 				</div>
 			</div>
@@ -126,6 +127,14 @@ function stripe_payment_form() {
 	</div>
 
 	<script type="text/javascript"> 
+
+		function update_people_affected() {
+			if($('.amount input.user-amount').val()) {
+				var amount = parseFloat($('.amount input.user-amount').val());
+				$('.amount p.subtext').text(parseInt((amount - 0.3 - (amount * 0.022)) / 0.8) + " people will receive safe water");
+			}
+		}
+
 		$('#log-in').click(function() {
 			document.getElementById('wow-modal-overlay-1').style.display = "none";
 		});
@@ -133,6 +142,11 @@ function stripe_payment_form() {
 		$('button.default-amount').click(function(event) {
 			event.preventDefault();
 			$('input.user-amount').val($(this).attr('id'));
+			update_people_affected();
+		});
+
+		$('input.user-amount').focusout(function() {
+			update_people_affected();
 		});
 	</script>
 		<?php
