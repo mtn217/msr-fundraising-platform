@@ -158,6 +158,8 @@ function default_images() {
 }
 
 function fundraiser_listing() {
+	global $post; 
+
 	$args = array(
         'post_type' => 'fundraiser',
         'post_status' => 'publish'
@@ -173,21 +175,76 @@ function fundraiser_listing() {
 
     foreach ($query_funds->posts as $fund) {
     	
-    	if ($fund->post_author == 1) {
+    	if ($fund->post_author == 2 && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) > 0) {
     		array_push($featured, $fund);
     		continue;
     	}
     	$id = $fund->ID;
-    	if (get_post_meta($id, 'fundraiser-end', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) < 11) {
+    	if (get_post_meta($id, 'fundraiser-end', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) < 11 && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) > 0) {
     		array_push($ending_soon, $fund);
-    	} else if(get_post_meta($id, 'fundraiser-end', true) != "" && abs(get_fundraising_days_left(get_post_meta($id, 'fundraiser-start', true))) < 11) {
+    	} else if(get_post_meta($id, 'fundraiser-end', true) != "" && abs(get_fundraising_days_left(get_post_meta($id, 'fundraiser-start', true))) < 11 && abs(get_fundraising_days_left(get_post_meta($id, 'fundraiser-start', true))) > 0) {
     		array_push($recently_added, $fund);
     	} else if (get_post_meta($id, 'fundraiser-end', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) < 0) {
     		array_push($past, $fund);
     	} else {
     		array_push($other, $fund);
     	}
-    }
+    } ?>
+
+    <div class="user-profile-header">
+			<p id="titleText">Featured Fundraisers</p>
+	</div>
+	<?php
+    foreach($featured as $fund) {
+    	$post = get_post( $fund->ID, OBJECT );
+		setup_postdata( $post );
+		$id = $post->ID;
+    	get_active_fundraisers($id);
+    	wp_reset_postdata();
+    } ?>
+    
+    <div>
+		<?php
+	    foreach($recently_added as $fund) {
+	    	$post = get_post( $fund->ID, OBJECT );
+			setup_postdata( $post );
+			$id = $post->ID;
+	    	get_active_fundraisers($id);
+	    	wp_reset_postdata();
+	    } ?>
+    </div>
+    <div>
+		<?php
+	    foreach($ending_soon as $fund) {
+	    	$post = get_post( $fund->ID, OBJECT );
+			setup_postdata( $post );
+			$id = $post->ID;
+	    	get_active_fundraisers($id);
+	    	wp_reset_postdata();
+	    } ?>
+    </div>
+    <div>
+		<?php
+	    foreach($past as $fund) {
+	    	$post = get_post( $fund->ID, OBJECT );
+			setup_postdata( $post );
+			$id = $post->ID;
+	    	get_active_fundraisers($id);
+	    	wp_reset_postdata();
+	    } ?>
+    </div>
+    <div>
+	    <?php
+	    foreach($other as $fund) {
+	    	$post = get_post( $fund->ID, OBJECT );
+			setup_postdata( $post );
+			$id = $post->ID;
+	    	get_active_fundraisers($id);
+	    	wp_reset_postdata();
+	    } ?>
+    </div>
+    <?php
+
 }
 
 add_shortcode('payment', 'stripe_payment_form');
