@@ -65,7 +65,7 @@ function stripe_payment_form() {
 					<p class="helper-text">Your reciept will be emailed here.
 				</div>
 				<div class="form-row check-input">
-					<input type="checkbox" name="anonymous" checked /><label><?php _e('Subscribe to MSR Global Health updates', 'stripe'); ?></label>
+					<input type="checkbox" name="anonymous" class="anonymous" checked /><label><?php _e('Subscribe to MSR Global Health updates', 'stripe'); ?></label>
 				</div>
 			</div>
 			<div class="right">
@@ -96,29 +96,28 @@ function stripe_payment_form() {
 						<?php comment_form(array('title_reply' => __( 'Leave a Comment', 'textdomain' ), 'comment_notes_after' => ''), $post_id); ?>
 					</div>
 				<?php } ?>
-			</div>
-			
-			<?php if(is_user_logged_in() && strpos($actual_link, '/contribute/')) { ?>
-			<div class="form-row">
-				<input class="r-input-check" type="checkbox" id="recurring"/>Recurring monthly payment
-			</div>
-			<?php }  elseif(strpos($actual_link, '/contribute/')) { ?>
- 			<div class="form-row">
-				<label>Sign In if you would like to set up recurring contribution<br><a id="log-in" href="/#wow-modal-id-3">Log in</a></label>
-			</div> 
-			<?php } ?>
-			<input type="hidden" class="action" value="stripe"/>
-			<input type="hidden" class="post_id" value="<?php 
-				$id = url_to_postid($actual_link);
-				if(strpos($actual_link, '/contribute/')) {
-					echo 'general';
-				} else {
-					echo $id;
-				}
-			?>"/>
-			<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
-			<div class="buttons">
-				<button type="submit" id="stripe-submit"><?php _e('Submit', 'stripe'); ?></button>
+				<?php if(is_user_logged_in() && strpos($actual_link, '/contribute/')) { ?>
+					<div class="form-row">
+						<input class="r-input-check" type="checkbox" id="recurring"/>Recurring monthly payment
+					</div>
+				<?php }  elseif(strpos($actual_link, '/contribute/')) { ?>
+		 			<div class="form-row">
+						<label>Sign In if you would like to set up recurring contribution<br><a id="log-in" href="/#wow-modal-id-3">Log in</a></label>
+					</div> 
+				<?php } ?>
+				<input type="hidden" class="action" value="stripe"/>
+				<input type="hidden" class="post_id" value="<?php 
+					$id = url_to_postid($actual_link);
+					if(strpos($actual_link, '/contribute/')) {
+						echo 'general';
+					} else {
+						echo $id;
+					}
+				?>"/>
+				<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
+				<div class="buttons">
+					<button type="submit" id="stripe-submit"><?php _e('Submit', 'stripe'); ?></button>
+				</div>
 			</div>
 		</form>
 		<div class="payment-errors"></div>

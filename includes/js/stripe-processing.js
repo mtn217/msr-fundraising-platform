@@ -15,11 +15,10 @@ function stripeResponseHandler(status, response) {
         var recurring = $('.recurring').val();
         var email = $('.email').val();
         var action = $('.action').val();
-        var fullname = $('.name').val();
-        var isAnon = $("input:checked").val();
-        var displayName = $(".display-name").val();
+        var fullname = $('.first-name').val() + " " + $('.last-name').val();
+        debugger;
 
-        if(isAnon == "anonymous") {
+        if($('input.anonymous').is(':checked')) {
         	var anon = "true";
         } else {
         	var anon = "false";
@@ -27,11 +26,6 @@ function stripeResponseHandler(status, response) {
        
         var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=' + action + '&stripe_nonce=' + nounce + 
         	"&postID=" + post_id + "&email=" + email + "&name=" + fullname + "&anonymous=" + anon;
-
-        if(anon == "false") {
-        	var addOn = "&display_name=" + displayName;
-        	dataString += addOn;
-        }
 
         if(document.getElementById("recurring")) {
         	if(document.getElementById("recurring").checked) {
@@ -70,7 +64,6 @@ jQuery(document).ready(function($) {
 				exp_month: $('.card-expiry-month').val(),
 				exp_year: $('.card-expiry-year').val(),
 				name: $('.name').val(),
-				address_zip: $('.zipcode').val(),
 			}, stripeResponseHandler);
 			event.preventDefault();
 			return false;
