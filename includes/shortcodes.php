@@ -43,11 +43,11 @@ function stripe_payment_form() {
 				<h4>Your Information</h4>
 				<div class="form-row split-row">
 					<div class="first">
-						<label><?php _e('First Name*', 'stripe'); ?></label>
+						<label><?php _e('First Name <span class="red">*</span>', 'stripe'); ?></label>
 						<input data-validation="alphanumeric" data-validation-allowing=" " type="text" autocomplete="off" class="first-name" value="<?php echo $user_first; ?>"/>
 					</div>
 					<div class="second">
-						<label><?php _e('Last Name*', 'stripe'); ?></label>
+						<label><?php _e('Last Name <span class="red">*</span>', 'stripe'); ?></label>
 						<input data-validation="alphanumeric" data-validation-allowing=" " type="text" autocomplete="off" class="last-name" value="<?php echo $user_last; ?>"/>
 					</div>
 				</div>
@@ -55,7 +55,7 @@ function stripe_payment_form() {
 					<input type="checkbox" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?> <?php echo info_svg(); ?></label>
 				</div>
 				<div class="form-row">
-					<label><?php _e('Email*', 'stripe'); ?></label>
+					<label><?php _e('Email <span class="red">*</span>', 'stripe'); ?></label>
 					<input data-validation="email" type="text" size="20" autocomplete="off" class="email" value="<?php  
 						if(is_user_logged_in()) {
 							$user = get_userdata(get_current_user_id());
@@ -71,7 +71,7 @@ function stripe_payment_form() {
 			<div class="right">
 				<h4>Payment Details</h4>
 				<div class="form-row">
-					<label><?php _e('Card No*', 'stripe'); ?></label>
+					<label><?php _e('Card No <span class="red">*</span>', 'stripe'); ?></label>
 					<input type="text" size="20" autocomplete="off" class="card-number"/>
 				</div>
 				<div class="form-row">
@@ -80,20 +80,22 @@ function stripe_payment_form() {
 				</div>
 				<div class="form-row">
 					<div class="expiration group">
-						<label><?php _e('Expiration Date*', 'stripe'); ?></label>
+						<label><?php _e('Expiration Date <span class="red">*</span>', 'stripe'); ?></label>
 						<input type="text" size="2" class="card-expiry-month" placeholder="MM"/>
 						<!-- Limit to 2 numbers only -->
 						<input type="text" size="4" class="card-expiry-year" placeholder="YYYY"/>
 						<!-- Limit to 4 numbers only -->
 					</div>
 					<div class="ccv group">
-						<label><?php _e('CVC*', 'stripe'); ?></label>
+						<label><?php _e('CVC <span class="red">*</span>', 'stripe'); ?></label>
 						<input type="text" size="4" autocomplete="off" class="card-cvc"/>
 					</div>
 				</div>
-				<?php if(is_user_logged_in()) { ?>
+				<?php if(is_user_logged_in() && !strpos($actual_link, '/contribute/')) { ?>
 					<div class="comment-form">
-						<?php comment_form(array('title_reply' => __( 'Leave a Comment', 'textdomain' ), 'comment_notes_after' => ''), $post_id); ?>
+						<h3 class="comment-reply-title">Leave a Comment</h3>
+						<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525"></textarea>
+						
 					</div>
 				<?php } ?>
 				<?php if(is_user_logged_in() && strpos($actual_link, '/contribute/')) { ?>
@@ -126,6 +128,11 @@ function stripe_payment_form() {
 	<script type="text/javascript"> 
 		$('#log-in').click(function() {
 			document.getElementById('wow-modal-overlay-1').style.display = "none";
+		});
+
+		$('button.default-amount').click(function(event) {
+			event.preventDefault();
+			$('input.user-amount').val($(this).attr('id'));
 		});
 	</script>
 		<?php

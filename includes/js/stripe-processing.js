@@ -16,7 +16,6 @@ function stripeResponseHandler(status, response) {
         var email = $('.email').val();
         var action = $('.action').val();
         var fullname = $('.first-name').val() + " " + $('.last-name').val();
-        debugger;
 
         if($('input.anonymous').is(':checked')) {
         	var anon = "true";
