@@ -21,6 +21,14 @@ function stripe_process_payment() {
 
 		$anonymous = $_POST['anonymous'];
 
+		if (isset($_POST['comment'])) {
+			$comment = $_POST['comment'];
+			$user_id = $_POST['user_id'];
+		} else {
+			$comment = '';
+			$user_id = '';
+		}
+
 		// check if we are using test mode
 		if(isset($stripe_options['test_mode']) && $stripe_options['test_mode']) {
 			$secret_key = $stripe_options['test_secret_key'];
@@ -111,6 +119,9 @@ function stripe_process_payment() {
 					echo $transaction_json;
 				}
 
+				// if ($comment != '') {
+				// 	$commnet_id = leave_comment(intval($post_id), $name, $email, $comment, intval($user_id));
+				// }
 			} catch (Exception $e) {
 				// Stop on failed payment
 				wp_die($e);
