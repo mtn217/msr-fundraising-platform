@@ -122,6 +122,22 @@ function stripe_payment_form() {
 			</div>
 		</form>
 		<div class="payment-errors"></div>
+		<div class="message">
+			<?php echo green_check(); ?>
+			<h2>Thank you!</h2>
+			<div id="message"></div>
+			<hr>
+			<p>Share your contribution</p>
+			<div class="sharing">
+				<a href="http://www.facebook.com/sharer.php?u=<?php the_permalink();?>&amp;t=<?php the_title(); ?>" title="Share on Facebook." target="_blank"><?php echo facebook_svg(); ?></a>
+				<a href="http://twitter.com/home/?status=<?php the_title(); ?> - <?php the_permalink(); ?>" title="Tweet this!" target="_blank"><?php echo twitter_svg(); ?></a>
+				<a id="copy-link" class="msr-tooltip">
+					<?php echo copy_svg(); ?>
+					<p id="copy-success" class="msr-tooltiptext">Copied!</p>
+				</a>
+			</div>
+			<button type="button" class="cancel" data-dismiss="modal" aria-label="Close">Done</button>
+		</div>
 	</div>
 
 	<script type="text/javascript"> 
