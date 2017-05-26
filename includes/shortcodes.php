@@ -94,7 +94,7 @@ function stripe_payment_form() {
 				<?php if(is_user_logged_in() && !strpos($actual_link, '/contribute/')) { ?>
 					<div class="comment-form">
 						<h3 class="comment-reply-title">Leave a Comment</h3>
-						<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525"></textarea>
+						<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" placeholder="Let us know why you contributed, tell us your story, or send words of encouragement!"></textarea>
 						
 					</div>
 				<?php } ?>
@@ -119,7 +119,7 @@ function stripe_payment_form() {
 				<input type="hidden" class="stripe_nonce" value="<?php echo wp_create_nonce('stripe-nonce'); ?>"/>
 				<div class="buttons">
 					<button type="button" class="cancel" data-dismiss="modal" aria-label="Close">Cancel</button>
-					<button type="submit" id="stripe-submit"><?php _e('Submit', 'stripe'); ?></button>
+					<button type="submit" id="stripe-submit"><?php _e('Give Now!', 'stripe'); ?></button>
 				</div>
 			</div>
 		</form>

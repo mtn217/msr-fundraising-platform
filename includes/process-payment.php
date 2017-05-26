@@ -21,8 +21,6 @@ function stripe_process_payment() {
 
 		$anonymous = $_POST['anonymous'];
 
-		$display_name = $_POST['display_name'];
-
 		// check if we are using test mode
 		if(isset($stripe_options['test_mode']) && $stripe_options['test_mode']) {
 			$secret_key = $stripe_options['test_secret_key'];
@@ -105,8 +103,7 @@ function stripe_process_payment() {
 							'description' => $post_id,
 							'metadata' => array(
 								'customer_name' => $name,
-								'anonymous' => $anonymous,
-								'display_name' => $display_name)
+								'anonymous' => $anonymous)
 						)
 					);
 					
