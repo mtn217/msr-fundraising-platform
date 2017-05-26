@@ -18,7 +18,7 @@ function stripeResponseHandler(status, response) {
         var fullname = $('.first-name').val() + " " + $('.last-name').val();
         var comment = $('#payment-form textarea#comment').val();
 
-        if($('input.anonymous').is(':checked')) {
+        if($('input.anonymous').prop('checked')) {
         	var anon = "true";
         } else {
         	var anon = "false";
