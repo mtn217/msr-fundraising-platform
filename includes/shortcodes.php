@@ -214,7 +214,7 @@ function fundraiser_listing() {
 
     <?php if(!empty($featured)) { ?>
 	    <div class="user-profile-header add-clear">
-				<p id="titleText">Featured Fundraisers</p>
+				<p id="titleText">MSR Global Health Fundraisers</p>
 		</div>
 		<div>
 			<?php
