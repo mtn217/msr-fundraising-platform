@@ -196,7 +196,7 @@ function fundraiser_listing() {
 
     foreach ($query_funds->posts as $fund) {
     	
-    	if ($fund->post_author == 2 && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) > 0) {
+    	if ($fund->post_author == 2 && (get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) > 0)) {
     		array_push($featured, $fund);
     		continue;
     	}
@@ -212,59 +212,86 @@ function fundraiser_listing() {
     	}
     } ?>
 
-    <div class="user-profile-header">
-			<p id="titleText">Featured Fundraisers</p>
-	</div>
-	<?php
-    foreach($featured as $fund) {
-    	$post = get_post( $fund->ID, OBJECT );
-		setup_postdata( $post );
-		$id = $post->ID;
-    	get_active_fundraisers($id);
-    	wp_reset_postdata();
-    } ?>
+    <?php if(!empty($featured)) { ?>
+	    <div class="user-profile-header add-clear">
+				<p id="titleText">Featured Fundraisers</p>
+		</div>
+		<div>
+			<?php
+		    foreach($featured as $fund) {
+		    	$post = get_post( $fund->ID, OBJECT );
+				setup_postdata( $post );
+				$id = $post->ID;
+		    	get_active_fundraisers($id);
+		    	wp_reset_postdata();
+		    } ?>
+	    </div>
+    <?php } ?>
     
-    <div>
-		<?php
-	    foreach($recently_added as $fund) {
-	    	$post = get_post( $fund->ID, OBJECT );
-			setup_postdata( $post );
-			$id = $post->ID;
-	    	get_active_fundraisers($id);
-	    	wp_reset_postdata();
-	    } ?>
-    </div>
-    <div>
-		<?php
-	    foreach($ending_soon as $fund) {
-	    	$post = get_post( $fund->ID, OBJECT );
-			setup_postdata( $post );
-			$id = $post->ID;
-	    	get_active_fundraisers($id);
-	    	wp_reset_postdata();
-	    } ?>
-    </div>
-    <div>
-		<?php
-	    foreach($past as $fund) {
-	    	$post = get_post( $fund->ID, OBJECT );
-			setup_postdata( $post );
-			$id = $post->ID;
-	    	get_active_fundraisers($id);
-	    	wp_reset_postdata();
-	    } ?>
-    </div>
-    <div>
+    <?php if(!empty($recently_added)) { ?>
+	    <div class="user-profile-header add-clear">
+				<p id="titleText">Recently Added Fundraisers</p>
+		</div>
+	    <div>
+			<?php
+		    foreach($recently_added as $fund) {
+		    	$post = get_post( $fund->ID, OBJECT );
+				setup_postdata( $post );
+				$id = $post->ID;
+		    	get_active_fundraisers($id);
+		    	wp_reset_postdata();
+		    } ?>
+	    </div>
+    <?php } ?>
+
+    <?php if(!empty($ending_soon)) { ?>
+	    <div class="user-profile-header add-clear">
+				<p id="titleText">Fundraisers Ending Soon</p>
+		</div>
+	    <div>
+			<?php
+		    foreach($ending_soon as $fund) {
+		    	$post = get_post( $fund->ID, OBJECT );
+				setup_postdata( $post );
+				$id = $post->ID;
+		    	get_active_fundraisers($id);
+		    	wp_reset_postdata();
+		   } ?>
+	    </div>
+	<?php } ?>
+
+    <?php if(!empty($past)) { ?>
+	    <div class="user-profile-header add-clear">
+				<p id="titleText">Past Fundraisers</p>
+		</div>
+	    <div>
+			<?php
+		    foreach($past as $fund) {
+		    	$post = get_post( $fund->ID, OBJECT );
+				setup_postdata( $post );
+				$id = $post->ID;
+		    	get_active_fundraisers($id);
+		    	wp_reset_postdata();
+		    } ?>
+	    </div>
+    <?php } ?>
+
+    <?php if(!empty($other)) { ?>
+	    <div class="user-profile-header add-clear">
+				<p id="titleText">Other Fundraisers</p>
+		</div>
+	    <div>
+		    <?php
+		    foreach($other as $fund) {
+		    	$post = get_post( $fund->ID, OBJECT );
+				setup_postdata( $post );
+				$id = $post->ID;
+		    	get_active_fundraisers($id);
+		    	wp_reset_postdata();
+		    } ?>
+	    </div>
 	    <?php
-	    foreach($other as $fund) {
-	    	$post = get_post( $fund->ID, OBJECT );
-			setup_postdata( $post );
-			$id = $post->ID;
-	    	get_active_fundraisers($id);
-	    	wp_reset_postdata();
-	    } ?>
-    </div>
-    <?php
+    }
 
 }
 
