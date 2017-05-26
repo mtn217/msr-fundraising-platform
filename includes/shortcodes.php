@@ -95,7 +95,7 @@ function stripe_payment_form() {
 					<div class="comment-form">
 						<h3 class="comment-reply-title">Leave a Comment</h3>
 						<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" placeholder="Let us know why you contributed, tell us your story, or send words of encouragement!"></textarea>
-						
+						<input type="hidden" class="user-id" value="<?php echo get_current_user_id(); ?>" />
 					</div>
 				<?php } ?>
 				<?php if(is_user_logged_in() && strpos($actual_link, '/contribute/')) { ?>

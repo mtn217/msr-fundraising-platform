@@ -21,7 +21,7 @@ function create_fundraiser_post_type() {
 	      'labels' => $labels,
 	      'public' => true,
 	      'has_archive' => false,
-          'supports' => array( 'thumbnail', 'comments', 'author', 'editor', 'title' ),
+          'supports' => array( 'thumbnail', 'comments', 'author', 'editor', 'title' ),          
 	    )
 	);
 }

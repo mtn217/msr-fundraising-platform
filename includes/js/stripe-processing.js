@@ -16,6 +16,7 @@ function stripeResponseHandler(status, response) {
         var email = $('.email').val();
         var action = $('.action').val();
         var fullname = $('.first-name').val() + " " + $('.last-name').val();
+        var comment = $('#payment-form textarea#comment').val();
 
         if($('input.anonymous').is(':checked')) {
         	var anon = "true";
@@ -26,22 +27,23 @@ function stripeResponseHandler(status, response) {
         var dataString = 'user-amount=' + amount + '&stripeToken=' + token + '&action=' + action + '&stripe_nonce=' + nounce + 
         	"&postID=" + post_id + "&email=" + email + "&name=" + fullname + "&anonymous=" + anon;
 
+        if (comment) {
+        	dataString = dataString + "&comment=" + comment + "&user_id=" + $('.user-id').val();
+        }
+
         if(document.getElementById("recurring")) {
         	if(document.getElementById("recurring").checked) {
         		dataString = dataString.concat("&recurring=recurring");
         	}
         }
+
     	$.ajax({
 			type: "POST",
 			url: "process-payment.php",
 			data: dataString,
 			dataType: 'json',
 			success: function(data){
-				$('#payment-form').html("<div id='message'></div>");
-				$('#message').html("<h2>Thank you for your payment. Please check your email for your receipt.</h2>")
-					.append("<p>Your confirmation code is:  " + data.id + "</p>")
-      				.hide()
-      				.fadeIn(1000);
+				replace_modal_content(data);
 			},
 			error: function(xhr) {
 				alert(xhr.status + " " + xhr.statusText);
@@ -49,6 +51,15 @@ function stripeResponseHandler(status, response) {
 		});
     }
 }
+
+function replace_modal_content(data) {
+	$('#payment-form').html("<div id='message'></div>");
+	$('#message').html("<h2>Thank you for your payment. Please check your email for your receipt.</h2>")
+		.append("<p>Your confirmation code is:  " + data.id + "</p>")
+			.hide()
+			.fadeIn(1000);
+}
+
 jQuery(document).ready(function($) {
 	// Validates form
 	$.validate({
