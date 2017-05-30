@@ -62,7 +62,7 @@ function stripe_payment_form() {
 							echo $user->user_email;
 						}
 					?>"/>
-					<p class="helper-text">Your reciept will be emailed here.
+					<p class="helper-text">Your reciept will be emailed here.</p>
 				</div>
 				<?php if(!is_user_logged_in()) { ?>
 					<div class="form-row check-input">
@@ -99,8 +99,8 @@ function stripe_payment_form() {
 					<input type="hidden" class="user-id" value="<?php echo get_current_user_id(); ?>" />
 				<?php } ?>
 				<?php if(is_user_logged_in() && strpos($actual_link, '/contribute/')) { ?>
-					<div class="form-row">
-						<input class="r-input-check" type="checkbox" id="recurring"/>Recurring monthly payment
+					<div class="form-row check-input">
+						<input class="r-input-check" type="checkbox" id="recurring"/><label>Recurring monthly payment</label>
 					</div>
 				<?php }  elseif(strpos($actual_link, '/contribute/')) { ?>
 		 			<div class="form-row">
