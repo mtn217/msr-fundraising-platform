@@ -53,11 +53,15 @@ function stripeResponseHandler(status, response) {
 }
 
 function replace_modal_content(data) {
-	$('#payment-form').html("<div id='message'></div>");
-	$('#message').html("<h2>Thank you for your payment. Please check your email for your receipt.</h2>")
-		.append("<p>Your confirmation code is:  " + data.id + "</p>")
-			.hide()
-			.fadeIn(1000);
+	$('#stripe-payment-form').trigger("reset");
+	$('#stripe-payment-form').hide();
+	$('.modal-dialog').animate({
+		width: "500",
+	}, 300);
+	//$('#payment-form').html("<div id='message'></div>"); //delete this
+	//$('#message').html("<h2>Thank you!</h2>") //delete this
+	$('#message').append("<p>Your contribution was successful. We've sent you an email confirmation. Your confirmation code is: " + data.id + "</p>")
+	$('.message').hide().fadeIn(1000);
 }
 
 jQuery(document).ready(function($) {
