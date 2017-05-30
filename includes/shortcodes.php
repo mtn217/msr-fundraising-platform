@@ -52,7 +52,7 @@ function stripe_payment_form() {
 					</div>
 				</div>
 				<div class="form-row check-input">
-					<input type="checkbox" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?></label>
+					<input type="checkbox" id="anonymous-contribution" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?></label>
 				</div>
 				<div class="form-row">
 					<label><?php _e('Email <span class="red">*</span>', 'stripe'); ?></label>
@@ -64,9 +64,11 @@ function stripe_payment_form() {
 					?>"/>
 					<p class="helper-text">Your reciept will be emailed here.
 				</div>
-				<div class="form-row check-input">
-					<input type="checkbox" name="subscribe" class="subscribe" checked /><label><?php _e('Subscribe to MSR Global Health updates', 'stripe'); ?></label>
-				</div>
+				<?php if(!is_user_logged_in()) { ?>
+					<div class="form-row check-input">
+						<input type="checkbox" name="subscribe" class="subscribe" checked /><label><?php _e('Subscribe to MSR Global Health updates', 'stripe'); ?></label>
+					</div>
+				<?php } ?>
 			</div>
 			<div class="right">
 				<h4>Payment Details</h4>
