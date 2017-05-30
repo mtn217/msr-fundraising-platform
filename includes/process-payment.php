@@ -119,9 +119,9 @@ function stripe_process_payment() {
 					echo $transaction_json;
 				}
 
-				// if ($comment != '') {
-				// 	$commnet_id = leave_comment(intval($post_id), $name, $email, $comment, intval($user_id));
-				// }
+				if ($comment != '') {
+					$commnet_id = leave_comment(intval($post_id), $name, $email, $comment, intval($user_id));
+				}
 			} catch (Exception $e) {
 				// Stop on failed payment
 				wp_die($e);
@@ -132,3 +132,4 @@ function stripe_process_payment() {
 }
 
 add_action('init', 'stripe_process_payment');
+?>

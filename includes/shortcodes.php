@@ -16,7 +16,7 @@ function stripe_payment_form() {
 
 	?>
 	<div id="payment-form">
-		<form action="process-payment.php" method="POST" id="stripe-payment-form">
+		<form action="" method="POST" id="stripe-payment-form">
 			<div class="left">
 				<h2><?php 
 					$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
@@ -52,7 +52,7 @@ function stripe_payment_form() {
 					</div>
 				</div>
 				<div class="form-row check-input">
-					<input type="checkbox" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?> <?php echo info_svg(); ?></label>
+					<input type="checkbox" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?></label>
 				</div>
 				<div class="form-row">
 					<label><?php _e('Email <span class="red">*</span>', 'stripe'); ?></label>
