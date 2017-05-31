@@ -104,7 +104,7 @@ function stripe_payment_form() {
 				<?php } ?>
 				<?php if(is_user_logged_in() && strpos($actual_link, '/general-contribution/')) { ?>
 					<div class="form-row check-input">
-						<input class="r-input-check" type="checkbox" id="recurring"/><label>Recurring monthly payment</label>
+						<input class="r-input-check" type="checkbox" id="recurring"/><label for="recurring">Recurring monthly payment</label>
 					</div>
 				<?php }  elseif(strpos($actual_link, '/general-contribution/')) { ?>
 		 			<div class="form-row">
