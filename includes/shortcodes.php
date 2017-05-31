@@ -21,7 +21,7 @@ function stripe_payment_form() {
 				<h2><?php 
 					$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 					$id = url_to_postid($actual_link);
-					if(strpos($actual_link, '/contribute/')) {
+					if(strpos($actual_link, '/general-contribution/')) {
 						echo 'General Contribution to MSR Global Health';
 					} else {
 						echo get_the_title($id);
@@ -93,16 +93,16 @@ function stripe_payment_form() {
 						<input type="text" size="4" autocomplete="off" class="card-cvc"/>
 					</div>
 				</div>
-				<?php if(is_user_logged_in() && !strpos($actual_link, '/contribute/')) { ?>
+				<?php if(is_user_logged_in() && !strpos($actual_link, '/general-contribution/')) { ?>
 					<h3 class="comment-reply-title">Leave a Comment</h3>
 					<textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" placeholder="Let us know why you contributed, tell us your story, or send words of encouragement!"></textarea>
 					<input type="hidden" class="user-id" value="<?php echo get_current_user_id(); ?>" />
 				<?php } ?>
-				<?php if(is_user_logged_in() && strpos($actual_link, '/contribute/')) { ?>
+				<?php if(is_user_logged_in() && strpos($actual_link, '/general-contribution/')) { ?>
 					<div class="form-row check-input">
 						<input class="r-input-check" type="checkbox" id="recurring"/><label>Recurring monthly payment</label>
 					</div>
-				<?php }  elseif(strpos($actual_link, '/contribute/')) { ?>
+				<?php }  elseif(strpos($actual_link, '/general-contribution/')) { ?>
 		 			<div class="form-row">
 						<label>Sign In if you would like to set up recurring contribution<br><a id="log-in" href="/#wow-modal-id-3">Log in</a></label>
 					</div> 
@@ -110,7 +110,7 @@ function stripe_payment_form() {
 				<input type="hidden" class="action" value="stripe"/>
 				<input type="hidden" class="post_id" value="<?php 
 					$id = url_to_postid($actual_link);
-					if(strpos($actual_link, '/contribute/')) {
+					if(strpos($actual_link, '/general-contribution/')) {
 						echo 'general';
 					} else {
 						echo $id;
