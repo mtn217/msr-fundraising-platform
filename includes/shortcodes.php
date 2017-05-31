@@ -211,11 +211,6 @@ function fundraiser_listing() {
     $other = array();
 
     foreach ($query_funds->posts as $fund) {
-    	
-    	if ($fund->post_author == 2 && (get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) > 0)) {
-    		array_push($featured, $fund);
-    		continue;
-    	}
     	$id = $fund->ID;
     	if (get_post_meta($id, 'fundraiserEnd', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) < 11 && get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) > 0) {
     		array_push($ending_soon, $fund);
@@ -227,22 +222,6 @@ function fundraiser_listing() {
     		array_push($other, $fund);
     	}
     } ?>
-
-    <?php if(!empty($featured)) { ?>
-	    <div class="user-profile-header add-clear">
-				<p id="titleText">MSR Global Health Fundraisers</p>
-		</div>
-		<div>
-			<?php
-		    foreach($featured as $fund) {
-		    	$post = get_post( $fund->ID, OBJECT );
-				setup_postdata( $post );
-				$id = $post->ID;
-		    	get_active_fundraisers($id);
-		    	wp_reset_postdata();
-		    } ?>
-	    </div>
-    <?php } ?>
     
     <?php if(!empty($recently_added)) { ?>
 	    <div class="user-profile-header add-clear">
