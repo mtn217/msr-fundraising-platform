@@ -12,11 +12,7 @@ function stripe_payment_form() {
 	}
 	$actual_link = (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 
-	ob_start();
-
-	if(!is_user_logged_in()) {
-		echo do_shortcode('[ultimatemember form_id=8849]');
-	} ?>
+	ob_start(); ?>
 
 	<div id="payment-form" class="<?php if (!is_user_logged_in()) { echo 'hide'; } ?>">
 		<form action="" method="POST" id="stripe-payment-form">
@@ -56,7 +52,7 @@ function stripe_payment_form() {
 				</div>
 				<?php if (!strpos($actual_link, '/contribute/')) { ?>
 					<div class="form-row check-input">
-						<input type="checkbox" id="anonymous-contribution" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?></label>
+						<input type="checkbox" id="anonymous-contribution" name="anonymous" /><label for="anonymous-contribution"><?php _e('Make contribution anonymous', 'stripe'); ?></label>
 					</div>
 				<?php } ?>
 				<div class="form-row">
