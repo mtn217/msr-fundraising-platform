@@ -39,25 +39,25 @@ function stripe_event_listener() {
 
 					#Update amount raised. 
 					$post_id = $invoice->description;
-					$current_amount_raised = get_post_meta($post_id, 'fundraiser-amount-raised', true);
+					$current_amount_raised = get_post_meta($post_id, 'amountRaised', true);
 					$current_amount_raised = $current_amount_raised + $amount;
-					update_post_meta($post_id, 'fundraiser-amount-raised', $current_amount_raised);
+					update_post_meta($post_id, 'amountRaised', $current_amount_raised);
 
 					// retrieve the payer's information
-					$customer = \Stripe\Customer::retrieve($invoice->customer);
-					$email = $customer->email;
+					// $customer = \Stripe\Customer::retrieve($invoice->customer);
+					// $email = $customer->email;
  
-					$confirmation = $invoice->id;
-					$name = $invoice->metadata->customer_name;
+					// $confirmation = $invoice->id;
+					// $name = $invoice->metadata->customer_name;
  
-					# Send out confirmation email once charge is successful. 
-					$subject = __('Payment Receipt', 'pippin_stripe');
-					$headers = 'From: "' . html_entity_decode(get_bloginfo('name')) . '" <' . get_bloginfo('admin_email') . '>';
-					$message = "Hello " . $name . ",\n\n";
-					$message .= "You have successfully made a payment of $" . $amount . ".00\n\n";
-					$message .= "Thank you for your generosity.\n\n";
-					$message .= "Here is your confirmation number: ". $confirmation;
-					wp_mail($email, $subject, $message, $headers);
+					// # Send out confirmation email once charge is successful. 
+					// $subject = __('Payment Receipt', 'pippin_stripe');
+					// $headers = 'From: "' . html_entity_decode(get_bloginfo('name')) . '" <' . get_bloginfo('admin_email') . '>';
+					// $message = "Hello " . $name . ",\n\n";
+					// $message .= "You have successfully made a payment of $" . $amount . ".00\n\n";
+					// $message .= "Thank you for your generosity.\n\n";
+					// $message .= "Here is your confirmation number: ". $confirmation;
+					// wp_mail($email, $subject, $message, $headers);
 				}
 			} catch (Exception $e) {
 				// something failed, perhaps log a notice or email the site admin
