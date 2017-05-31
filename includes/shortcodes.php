@@ -14,8 +14,11 @@ function stripe_payment_form() {
 
 	ob_start();
 
-	?>
-	<div id="payment-form">
+	if(!is_user_logged_in()) {
+		echo do_shortcode('[ultimatemember form_id=8849]');
+	} ?>
+
+	<div id="payment-form" class="<?php if (!is_user_logged_in()) { echo 'hide'; } ?>">
 		<form action="" method="POST" id="stripe-payment-form">
 			<div class="left">
 				<h2><?php 
@@ -51,9 +54,11 @@ function stripe_payment_form() {
 						<input data-validation="alphanumeric" data-validation-allowing=" " type="text" autocomplete="off" class="last-name" value="<?php echo $user_last; ?>"/>
 					</div>
 				</div>
-				<div class="form-row check-input">
-					<input type="checkbox" id="anonymous-contribution" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?></label>
-				</div>
+				<?php if (!strpos($actual_link, '/contribute/')) { ?>
+					<div class="form-row check-input">
+						<input type="checkbox" id="anonymous-contribution" name="anonymous" /><label><?php _e('Make contribution anonymous', 'stripe'); ?></label>
+					</div>
+				<?php } ?>
 				<div class="form-row">
 					<label><?php _e('Email <span class="red">*</span>', 'stripe'); ?></label>
 					<input data-validation="email" type="text" size="20" autocomplete="off" class="email" value="<?php  
@@ -77,7 +82,7 @@ function stripe_payment_form() {
 					<input type="text" size="20" autocomplete="off" class="card-number"/>
 				</div>
 				<div class="form-row">
-					<label><?php _e('Cardholder Name*', 'stripe'); ?></label>
+					<label><?php _e('Cardholder Name <span class="red">*</span>', 'stripe'); ?></label>
 					<input data-validation="alphanumeric" data-validation-allowing=" " type="text" size="20" autocomplete="off" class="name" />
 				</div>
 				<div class="form-row">
@@ -90,7 +95,7 @@ function stripe_payment_form() {
 					</div>
 					<div class="ccv group">
 						<label><?php _e('CVC <span class="red">*</span>', 'stripe'); ?></label>
-						<input type="text" size="4" autocomplete="off" class="card-cvc"/>
+						<input type="text" size="3" autocomplete="off" class="card-cvc"/>
 					</div>
 				</div>
 				<?php if(is_user_logged_in() && !strpos($actual_link, '/general-contribution/')) { ?>
@@ -211,11 +216,6 @@ function fundraiser_listing() {
     $other = array();
 
     foreach ($query_funds->posts as $fund) {
-    	
-    	if ($fund->post_author == 2 && (get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) > 0)) {
-    		array_push($featured, $fund);
-    		continue;
-    	}
     	$id = $fund->ID;
     	if (get_post_meta($id, 'fundraiserEnd', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) < 11 && get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) > 0) {
     		array_push($ending_soon, $fund);
@@ -227,22 +227,6 @@ function fundraiser_listing() {
     		array_push($other, $fund);
     	}
     } ?>
-
-    <?php if(!empty($featured)) { ?>
-	    <div class="user-profile-header add-clear">
-				<p id="titleText">MSR Global Health Fundraisers</p>
-		</div>
-		<div>
-			<?php
-		    foreach($featured as $fund) {
-		    	$post = get_post( $fund->ID, OBJECT );
-				setup_postdata( $post );
-				$id = $post->ID;
-		    	get_active_fundraisers($id);
-		    	wp_reset_postdata();
-		    } ?>
-	    </div>
-    <?php } ?>
     
     <?php if(!empty($recently_added)) { ?>
 	    <div class="user-profile-header add-clear">

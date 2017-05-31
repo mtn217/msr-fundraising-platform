@@ -46,7 +46,6 @@ function stripeResponseHandler(status, response) {
 				replace_modal_content(data);
 			},
 			error: function(xhr) {
-				console.log(xhr);
 				alert(xhr.status + " " + xhr.statusText);
 			}
 		});
