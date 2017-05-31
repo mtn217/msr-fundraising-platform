@@ -38,10 +38,10 @@ function stripe_event_listener() {
 					$amount = $invoice->amount / 100; // amount comes in as amount in cents, so we need to convert to dollars
 
 					#Update amount raised. 
-					$post_id = $invoice->description;
-					$current_amount_raised = get_post_meta($post_id, 'amountRaised', true);
-					$current_amount_raised = $current_amount_raised + $amount;
-					update_post_meta($post_id, 'amountRaised', $current_amount_raised);
+					// $post_id = $invoice->description;
+					// $current_amount_raised = get_post_meta($post_id, 'amountRaised', true);
+					// $current_amount_raised = $current_amount_raised + $amount;
+					// update_post_meta($post_id, 'amountRaised', $current_amount_raised);
 
 					// retrieve the payer's information
 					// $customer = \Stripe\Customer::retrieve($invoice->customer);
