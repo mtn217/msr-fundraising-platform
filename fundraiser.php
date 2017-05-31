@@ -36,6 +36,9 @@ function fundraiser_meta_box_cb($post) {
     if($post->post_type == 'fundraiser') {
     	wp_nonce_field(basename(__FILE__), 'fundraiser_nonce'); ?>
 
+        <h3><label for="amountRaised">Amount Raised</label></h3>
+        <input type="text" name="amountRaised" id="amountRaised" value="<?php echo esc_attr(get_post_meta($post->ID, 'amountRaised', true)); ?>" />
+
         <h3><label for="fundraiserGoal">Goal Amount</label></h3>
         <input type="text" name="fundraiserGoal" id="fundraiserGoal" value="<?php echo esc_attr(get_post_meta($post->ID, 'fundraiserGoal', true)); ?>" />
 
@@ -53,6 +56,7 @@ add_action('save_post', 'save_fundraiser_form');
 function save_fundraiser_form($post_id) {
     if (!verify_save('fundraiser_nonce', $post_id))
         return $post_id;
+    update_custom_post($post_id, 'fundraiser_form', 'amountRaised');
     update_custom_post($post_id, 'fundraiser_form', 'fundraiserGoal');
     update_custom_post($post_id, 'fundraiser_form', 'fundraiserStart');
     update_custom_post($post_id, 'fundraiser_form', 'fundraiserEnd');

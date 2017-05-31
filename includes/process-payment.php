@@ -119,6 +119,10 @@ function stripe_process_payment() {
 					echo $transaction_json;
 				}
 
+				$previous_amount = get_post_meta($post_id);
+				$new_amount = intval($previous_amount['amountRaised'][0]) + (intval($amount) / 100);
+				update_post_meta($post_id, 'amountRaised', $new_amount);
+
 				if ($comment != '') {
 					$commnet_id = leave_comment(intval($post_id), $name, $email, $comment, intval($user_id));
 				}

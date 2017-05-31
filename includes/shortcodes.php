@@ -212,16 +212,16 @@ function fundraiser_listing() {
 
     foreach ($query_funds->posts as $fund) {
     	
-    	if ($fund->post_author == 2 && (get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) > 0)) {
+    	if ($fund->post_author == 2 && (get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) > 0)) {
     		array_push($featured, $fund);
     		continue;
     	}
     	$id = $fund->ID;
-    	if (get_post_meta($id, 'fundraiser-end', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) < 11 && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) > 0) {
+    	if (get_post_meta($id, 'fundraiserEnd', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) < 11 && get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) > 0) {
     		array_push($ending_soon, $fund);
-    	} else if(get_post_meta($id, 'fundraiser-end', true) != "" && abs(get_fundraising_days_left(get_post_meta($id, 'fundraiser-start', true))) < 11 && abs(get_fundraising_days_left(get_post_meta($id, 'fundraiser-start', true))) > 0) {
+    	} else if(get_post_meta($id, 'fundraiserEnd', true) != "" && abs(get_fundraising_days_left(get_post_meta($id, 'fundraiserStart', true))) < 11 && abs(get_fundraising_days_left(get_post_meta($id, 'fundraiserStart', true))) > 0) {
     		array_push($recently_added, $fund);
-    	} else if (get_post_meta($id, 'fundraiser-end', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiser-end', true)) < 0) {
+    	} else if (get_post_meta($id, 'fundraiserEnd', true) != "" && get_fundraising_days_left(get_post_meta($id, 'fundraiserEnd', true)) < 0) {
     		array_push($past, $fund);
     	} else {
     		array_push($other, $fund);
