@@ -172,13 +172,6 @@ function stripe_payment_form() {
 		<?php
 	return ob_get_clean();
 
-}  
-
-function stripe_campaign_total() {
-	ob_start();
-	$total_amount = get_campaign_total();
-	echo '$' . $total_amount;
-	return ob_get_clean();
 }
 
 function default_images() {
@@ -295,6 +288,5 @@ function fundraiser_listing() {
 }
 
 add_shortcode('payment', 'stripe_payment_form');
-add_shortcode('campaign', 'stripe_campaign_total');
 add_shortcode('default_images', 'default_images');
 add_shortcode('listing', 'fundraiser_listing');
