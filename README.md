@@ -33,14 +33,18 @@ To process contributions made on the fundraising platform, we utilized Stripe as
 
 ## Contact Information
 Ali Haugh
+
 haughar@uw.edu
 
 Amber Kim
+
 amberkim@uw.edu
 
 Nichelle Song
+
 nsong94@uw.edu
 
 Michael Nguyen
+
 mtn217@uw.edu
 
