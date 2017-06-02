@@ -1,10 +1,10 @@
 # MSR Fundraising Platform Plugin
 
 ## Overview of your project
-### Problem Statement:
+**Problem Statement:**
 How might we create a fundraising platform so that MSR Global Health can increase awareness and support for their global health initiative from MSR’s outdoor customer audience?
 
-### Background and Context:
+**Background and Context:**
 MSR, a leader in providing high quality outdoor equipment, hosted a crowdfunding campaign on Indiegogo in October, 2016. MSR developed a chlorine maker device that allows anyone to treat contaminated water with very little resources. Their goal for the campaign was to deploy the chlorine maker devices to communities that need access to clean water the most. If the donation goal was met, MSR would be able to distribute enough chlorine maker devices to provide safe drinking water for 500,000 people. From this campaign, MSR found that a large amount of donations came from the outdoor enthusiasts that buys their outdoor equipment. Now, MSR wants to create a better way to connect with this audience. MSR also is in the process of creating a nonprofit division (MSR Global Health) within the company, to focus on raising funds and projects such as providing low cost water treatment solutions. MSR Global Health has decided that a great way to better connect to their outdoor customers while supporting MSR Global Health is to create a fundraising platform that will allow people to utilize their outdoor adventures to help raise money.
 
 
