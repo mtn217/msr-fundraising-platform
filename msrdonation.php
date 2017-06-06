@@ -2,7 +2,7 @@
    /*
    Plugin Name: MSR Global Health Fundraising Platform
    Description: a plugin for MSR Global Health's Fundraising Platform
-   Version: 0.1
+   Version: 1.0
    Author: Michael Nguyen
    */
    if(!defined('STRIPE_BASE_URL')) {
