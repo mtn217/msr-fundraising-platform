@@ -22,7 +22,6 @@ if(is_admin()) {
   include(STRIPE_BASE_DIR . '/includes/scripts.php');
   include(STRIPE_BASE_DIR . '/includes/process-payment.php');
   include(STRIPE_BASE_DIR . '/includes/stripe-listener.php');
-  include(STRIPE_BASE_DIR . '/includes/stripe-functions.php');
 }
 
 include('fundraiser.php');

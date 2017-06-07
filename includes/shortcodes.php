@@ -14,7 +14,7 @@ function stripe_payment_form() {
 
 	ob_start(); ?>
 
-	<div id="payment-form" class="<?php if (!is_user_logged_in()) { echo 'hide'; } ?>">
+	<div id="payment-form">
 		<form action="" method="POST" id="stripe-payment-form">
 			<div class="left">
 				<h2><?php 
@@ -63,7 +63,7 @@ function stripe_payment_form() {
 							echo $user->user_email;
 						}
 					?>"/>
-					<p class="helper-text">Your reciept will be emailed here.</p>
+					<p class="helper-text">Your receipt will be emailed here.</p>
 				</div>
 				<?php if(!is_user_logged_in()) { ?>
 					<div class="form-row check-input">
