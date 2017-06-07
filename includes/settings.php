@@ -1,7 +1,7 @@
 <?php
 
 function stripe_settings_setup() {
-	add_menu_page('MSR Donation Platform', 'MSR Donation Platform', 'manage_options', 'fundraising_settings', 'stripe_render_options_page', "dashicons-chart-line", 79);
+	add_menu_page('MSR Fundraising Platform', 'MSR Fundraising Platform', 'manage_options', 'fundraising_settings', 'stripe_render_options_page', "dashicons-chart-line", 79);
 }
 
 add_action('admin_menu', 'stripe_settings_setup');
@@ -10,27 +10,13 @@ function stripe_render_options_page() {
 	global $stripe_options;
 	?>
 	<div class="wrap">
-		<h2><?php _e('Fundraising Platform Settings', 'stripe'); ?></h2>
-
- 		<?php
-		    $active_tab = isset( $_GET[ 'tab' ] ) ? $_GET[ 'tab' ] : 'dashboard';
-		?>
-		<h2 class="nav-tab-wrapper">
-			<a href="?page=fundraising_settings&tab=dashboard" class="nav-tab <?php echo $active_tab == 'dashboard' ? 'nav-tab-active' : ''; ?>">Dashboard</a>
-		    <a href="?page=fundraising_settings&tab=fund_management" class="nav-tab <?php echo $active_tab == 'fund_management' ? 'nav-tab-active' : ''; ?>">Fundraiser Management</a>
-		    <a href="?page=fundraising_settings&tab=stripe_settings" class="nav-tab <?php echo $active_tab == 'stripe_settings' ? 'nav-tab-active' : ''; ?>">Stripe Settings</a>
-		</h2>
-
-
-
-		<form method="post" action="options.php">
+		<h2><?php _e('Fundraising Platform Stripe Settings', 'stripe'); ?></h2>
+	
 			<?php
-	        if( $active_tab == 'stripe_settings' ) {
 	            settings_fields('stripe_settings_group');
 				do_settings_sections('stripe_settings_group'); 
 				settings_errors();?>
 
-				<h1 class="title"><?php _e('Stripe Settings', 'stripe'); ?></h1>
 				<table class="form-table">
 					<tbody>
 						<tr valign="top">
@@ -86,81 +72,6 @@ function stripe_render_options_page() {
 						</tr>
 					</tbody>
 				</table>
-				
-		<!-- 		<p class="submit">
-					<input type="submit" class="button-primary" value="<?php _e('Save Options', 'mfwp_domain'); ?>" />
-				</p> -->
-
-	        <?php } else if ($active_tab == 'fund_management') { 
-	        	settings_fields('fund_management_group');
-				do_settings_sections('fund_management_group'); 
-				settings_errors(); ?>
-
-	        	<h1 class="title"><?php _e('Fundraising Management', 'management'); ?></h1>
-	        	<p>***Still in progress.***</p>
-	            <p>Include:</p>
-            	<ul>
-					<li>Table filled with pending fundraisers request to be approved or rejected</li>
-				  	<li>List of people who have contributed to campaigns/fundraisers and their contact information</li>
-				</ul>
-
-
-				<table style="width:100%; border: 3px solid black; border-collapse: collapse;">
-					<tr>
-						<th style="border: 3px solid black;"><input type="checkbox" /></th>
-			    		<th style="border: 3px solid black;">Fundraiser Title</th>
-			    		<th style="border: 3px solid black;">Fundraiser's Name</th>
-				    	<th style="border: 3px solid black;">Status</th> 
-				  	</tr>
-				<?php 
-					$args = array(
-					    'post_type' => 'fundraiser',
-					  	'post_status' => 'pending',
-					);
-					$post_query = new WP_Query($args);
-					if($post_query->have_posts() ) {
-						while($post_query->have_posts() ) {
-							$post_query->the_post();
-							$post = get_post();
-							?>
-							<tr>
-								<th style="border: 3px solid black;"><input type="checkbox" /></th>
-								<td style="border: 3px solid black;"> <a href="<?php echo get_post_permalink(); ?>"><?php echo get_the_title(); ?></a></td>
-								<td style="border: 3px solid black;"><?php 
-									$user = get_userdata(get_current_user_id());
-									echo $user->first_name . " " . $user->last_name; ?>	
-								</td>
-								<td style="border: 3px solid black;">Pending</td>
-							</tr>
-
-						<?php }
-					}
-				?>
-				</table>
-				<button>Approve Fundraisers</button>
-				<button>Reject Fundraisers</button>
-
-	        <?php } else { 
-	        	settings_fields('dashboard_group');
-				do_settings_sections('dashboard_group'); 
-				settings_errors(); ?>
-
-
-	            <h1 class="title"><?php _e('Dashboard', 'dashboard'); ?></h1>
-	            <p>***Still in progress.***</p>
-	            <p>Include:</p>
-            	<ul>
-					<li>Amber's data analysis on donations made so far that can be organized into year, month, day</li>
-				  	<li>Current Campaigns and their progress (amount raised, page visits, etc.)</li>
-				</ul>
-	        <?php }
-	        submit_button();
-			         
-		    ?>
-
-		</form>
-
-
 	<?php
 }
 
